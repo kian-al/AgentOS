@@ -1,0 +1,80 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 224 71% 4%;
+    --foreground: 213 31% 91%;
+    --card: 224 71% 7%;
+    --card-foreground: 213 31% 91%;
+    --popover: 224 71% 6%;
+    --popover-foreground: 213 31% 91%;
+    --primary: 210 100% 52%;
+    --primary-foreground: 222 47% 11%;
+    --secondary: 222 47% 16%;
+    --secondary-foreground: 210 40% 98%;
+    --muted: 223 47% 13%;
+    --muted-foreground: 215 20% 65%;
+    --accent: 216 34% 17%;
+    --accent-foreground: 210 40% 98%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 216 34% 17%;
+    --input: 216 34% 17%;
+    --ring: 210 100% 52%;
+    --radius: 0.5rem;
+
+    --chart-input: 217 91% 60%;
+    --chart-output: 270 95% 65%;
+    --chart-cache: 215 16% 47%;
+    --chart-cost: 160 84% 39%;
+    --chart-error: 0 84% 60%;
+    --chart-agent: 270 95% 65%;
+    --chart-tool: 217 91% 60%;
+    --chart-session: 160 84% 39%;
+  }
+
+  .dark {
+    --chart-input: 217 91% 60%;
+    --chart-output: 270 95% 65%;
+    --chart-cache: 215 16% 47%;
+    --chart-cost: 160 84% 39%;
+    --chart-error: 0 84% 60%;
+    --chart-agent: 270 95% 65%;
+    --chart-tool: 217 91% 60%;
+    --chart-session: 160 84% 39%;
+  }
+}
+
+body {
+  color: hsl(var(--foreground));
+  background: hsl(var(--background));
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Custom dark scrollbar for telemetry feeds & code tables */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: hsl(var(--card) / 0.6);
+}
+::-webkit-scrollbar-thumb {
+  background: hsl(var(--muted-foreground) / 0.4);
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: hsl(var(--muted-foreground) / 0.7);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+

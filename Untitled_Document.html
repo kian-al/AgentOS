@@ -1,0 +1,1695 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Untitled Document.md</title>
+  
+</head>
+<body id="preview">
+<h1 class="code-line has-line-data" data-line-start="0" data-line-end="1"><a id="AgentOS_Full_Product_Specification_0"></a>🧠 AgentOS — Full Product Specification</h1>
+<blockquote>
+<p class="has-line-data" data-line-start="1" data-line-end="3">The Operating System for AI Agents<br>
+Powered by: Agent Beacon + Everything Claude Code</p>
+</blockquote>
+<hr>
+<h2 class="code-line has-line-data" data-line-start="6" data-line-end="7"><a id="Table_of_Contents_6"></a>🗂️ Table of Contents</h2>
+<ol>
+<li class="has-line-data" data-line-start="8" data-line-end="9"><a href="#product-vision">Product Vision</a></li>
+<li class="has-line-data" data-line-start="9" data-line-end="10"><a href="#architecture-overview">Architecture Overview</a></li>
+<li class="has-line-data" data-line-start="10" data-line-end="11"><a href="#sprint-0--foundation--architecture">Sprint 0 — Foundation</a></li>
+<li class="has-line-data" data-line-start="11" data-line-end="12"><a href="#sprint-1--overview-dashboard">Sprint 1 — Overview Dashboard</a></li>
+<li class="has-line-data" data-line-start="12" data-line-end="13"><a href="#sprint-2--token-analytics">Sprint 2 — Token Analytics</a></li>
+<li class="has-line-data" data-line-start="13" data-line-end="14"><a href="#sprint-3--agent-manager">Sprint 3 — Agent Manager</a></li>
+<li class="has-line-data" data-line-start="14" data-line-end="15"><a href="#sprint-4--command-center">Sprint 4 — Command Center</a></li>
+<li class="has-line-data" data-line-start="15" data-line-end="16"><a href="#sprint-5--hook-manager">Sprint 5 — Hook Manager</a></li>
+<li class="has-line-data" data-line-start="16" data-line-end="17"><a href="#sprint-6--skill--mcp-store">Sprint 6 — Skill &amp; MCP Store</a></li>
+<li class="has-line-data" data-line-start="17" data-line-end="18"><a href="#sprint-7--visual-flow-graph">Sprint 7 — Visual Flow Graph</a></li>
+<li class="has-line-data" data-line-start="18" data-line-end="19"><a href="#sprint-8--chat-to-config">Sprint 8 — Chat-to-Config</a></li>
+<li class="has-line-data" data-line-start="19" data-line-end="20"><a href="#sprint-9--budget--safety">Sprint 9 — Budget &amp; Safety</a></li>
+<li class="has-line-data" data-line-start="20" data-line-end="21"><a href="#sprint-10--session-explorer--time-travel">Sprint 10 — Session Explorer &amp; Time-Travel</a></li>
+<li class="has-line-data" data-line-start="21" data-line-end="22"><a href="#sprint-11--model-intelligence">Sprint 11 — Model Intelligence</a></li>
+<li class="has-line-data" data-line-start="22" data-line-end="23"><a href="#sprint-12--roi-analytics--quality">Sprint 12 — ROI Analytics &amp; Quality</a></li>
+<li class="has-line-data" data-line-start="23" data-line-end="24"><a href="#sprint-13--auto-discovery--self-healing">Sprint 13 — Auto-Discovery &amp; Self-Healing</a></li>
+<li class="has-line-data" data-line-start="24" data-line-end="25"><a href="#sprint-14--dependency-map--config-versioning">Sprint 14 — Dependency Map &amp; Versioning</a></li>
+<li class="has-line-data" data-line-start="25" data-line-end="26"><a href="#sprint-15--team--collaboration">Sprint 15 — Team &amp; Marketplace</a></li>
+<li class="has-line-data" data-line-start="26" data-line-end="27"><a href="#sprint-16--what-if-simulator--alerts">Sprint 16 — What-If &amp; Alerts</a></li>
+<li class="has-line-data" data-line-start="27" data-line-end="28"><a href="#sprint-summary">Sprint Summary</a></li>
+<li class="has-line-data" data-line-start="28" data-line-end="30"><a href="#tech-stack">Tech Stack</a></li>
+</ol>
+<hr>
+<h2 class="code-line has-line-data" data-line-start="32" data-line-end="33"><a id="Product_Vision_32"></a>Product Vision</h2>
+<blockquote>
+<p class="has-line-data" data-line-start="34" data-line-end="36"><strong>AgentOS</strong> is the Operating System for AI Agents.<br>
+Monitor → Control → Understand → Evolve</p>
+</blockquote>
+<h3 class="code-line has-line-data" data-line-start="37" data-line-end="38"><a id="The_5_Pillars_37"></a>The 5 Pillars</h3>
+<table class="table table-striped table-bordered">
+<thead>
+<tr>
+<th>Layer</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>👁️ <strong>Observe</strong></td>
+<td>See everything happening in your agent system</td>
+</tr>
+<tr>
+<td>🎛️ <strong>Control</strong></td>
+<td>Manage agents, commands, hooks, skills, MCPs</td>
+</tr>
+<tr>
+<td>📊 <strong>Understand</strong></td>
+<td>ROI, model ranking, quality scoring</td>
+</tr>
+<tr>
+<td>🧠 <strong>Evolve</strong></td>
+<td>Self-healing, auto-discovery, model routing</td>
+</tr>
+<tr>
+<td>🤝 <strong>Collaborate</strong></td>
+<td>Team mode, marketplace, blueprints</td>
+</tr>
+</tbody>
+</table>
+<h3 class="code-line has-line-data" data-line-start="47" data-line-end="48"><a id="Data_Sources_47"></a>Data Sources</h3>
+<pre><code class="has-line-data" data-line-start="50" data-line-end="54">📡 Agent Beacon     → Telemetry, session data, token usage
+⚙️  Everything CC   → Agent configs, commands, hooks, skills
+🧠 AgentOS Engine  → Intelligence layer connecting both
+</code></pre>
+<hr>
+<h2 class="code-line has-line-data" data-line-start="57" data-line-end="58"><a id="Architecture_Overview_57"></a>Architecture Overview</h2>
+<pre><code class="has-line-data" data-line-start="60" data-line-end="87">┌─────────────────────────────────────────────────────────────┐
+│                    🏛️ AgentOS Platform                       │
+│                                                             │
+│  ┌──────────────────────────────────────────────────────┐   │
+│  │  👁️ OBSERVE — See everything                         │   │
+│  │  Dashboard, Tokens, Graph, Sessions, Deps            │   │
+│  └──────────────────────────────────────────────────────┘   │
+│  ┌──────────────────────────────────────────────────────┐   │
+│  │  🎛️ CONTROL — Manage everything                      │   │
+│  │  Agents, Commands, Hooks, Skills, Budget, Versions   │   │
+│  └──────────────────────────────────────────────────────┘   │
+│  ┌──────────────────────────────────────────────────────┐   │
+│  │  📊 UNDERSTAND — Analyze everything                  │   │
+│  │  ROI, Models, Quality, Alerts, Failures              │   │
+│  └──────────────────────────────────────────────────────┘   │
+│  ┌──────────────────────────────────────────────────────┐   │
+│  │  🧠 EVOLVE — Improve automatically                   │   │
+│  │  Auto-Discovery, Router, Self-Healing, What-If       │   │
+│  └──────────────────────────────────────────────────────┘   │
+│  ┌──────────────────────────────────────────────────────┐   │
+│  │  🤝 COLLABORATE — Work together                      │   │
+│  │  Team, Marketplace, Plugins, Shared Configs          │   │
+│  └──────────────────────────────────────────────────────┘   │
+│                                                             │
+│  Powered by: 📡 Agent Beacon + ⚙️ Everything Claude Code   │
+└─────────────────────────────────────────────────────────────┘
+</code></pre>
+<h3 class="code-line has-line-data" data-line-start="88" data-line-end="89"><a id="SelfEvolving_Feedback_Loop_88"></a>Self-Evolving Feedback Loop</h3>
+<pre><code class="has-line-data" data-line-start="91" data-line-end="97">Auto-Discover → Chat-to-Config → Visual Graph → Model Router
+     ↑                                               ↓
+Self-Healing ← Quality Judge ← ROI Analytics ← Budget Control
+     ↑___________________________________________________↑
+                    Continuous Feedback Loop
+</code></pre>
+<hr>
+<h2 class="code-line has-line-data" data-line-start="100" data-line-end="101"><a id="Project_Structure_100"></a>Project Structure</h2>
+<pre><code class="has-line-data" data-line-start="103" data-line-end="147">📁 agentOS/
+├── 📁 apps/
+│   ├── 📁 web/                     # Next.js 14 Dashboard
+│   │   ├── 📁 app/
+│   │   │   ├── 📁 (dashboard)/
+│   │   │   │   ├── 📁 overview/
+│   │   │   │   ├── 📁 agents/
+│   │   │   │   ├── 📁 commands/
+│   │   │   │   ├── 📁 hooks/
+│   │   │   │   ├── 📁 skills/
+│   │   │   │   ├── 📁 tokens/
+│   │   │   │   ├── 📁 sessions/
+│   │   │   │   ├── 📁 graph/
+│   │   │   │   ├── 📁 budget/
+│   │   │   │   ├── 📁 models/
+│   │   │   │   ├── 📁 roi/
+│   │   │   │   ├── 📁 settings/
+│   │   │   │   └── 📁 chat/
+│   │   │   └── layout.tsx
+│   │   ├── 📁 components/
+│   │   │   ├── 📁 ui/              # shadcn components
+│   │   │   ├── 📁 charts/          # Recharts/D3
+│   │   │   ├── 📁 graph/           # React Flow
+│   │   │   └── 📁 shared/
+│   │   └── 📁 lib/
+│   │       ├── api.ts
+│   │       ├── websocket.ts
+│   │       └── telemetry.ts
+│   │
+│   └── 📁 api/                     # Go Backend
+│       ├── 📁 handlers/
+│       ├── 📁 services/
+│       ├── 📁 models/
+│       ├── 📁 beacon/              # Beacon integration
+│       ├── 📁 config-engine/       # Claude Code config
+│       └── 📁 websocket/
+│
+├── 📁 packages/
+│   ├── 📁 shared-types/            # TypeScript types
+│   ├── 📁 config-parser/           # YAML/JSON parser
+│   └── 📁 telemetry-sdk/           # OTel wrapper
+│
+└── 📁 docs/
+</code></pre>
+<hr>
+<h2 class="code-line has-line-data" data-line-start="150" data-line-end="151"><a id="Sprint_0_Foundation_Architecture_150"></a>Sprint 0 — Foundation &amp; Architecture</h2>
+<p class="has-line-data" data-line-start="152" data-line-end="153"><strong>Duration:</strong> 1 week</p>
+<h3 class="code-line has-line-data" data-line-start="154" data-line-end="155"><a id="Story_01_Project_Setup_Monorepo_154"></a>Story 0.1 — Project Setup &amp; Monorepo</h3>
+<p class="has-line-data" data-line-start="156" data-line-end="159"><strong>As a</strong> developer,<br>
+<strong>I want</strong> the project structure ready,<br>
+<strong>So that</strong> I can develop features quickly.</p>
+<p class="has-line-data" data-line-start="160" data-line-end="161"><strong>Tasks:</strong></p>
+<ul>
+<li class="has-line-data" data-line-start="161" data-line-end="162"><input type="checkbox" id="checkbox4"><label for="checkbox4">Setup Next.js 14+ with App Router</label></li>
+<li class="has-line-data" data-line-start="162" data-line-end="163"><input type="checkbox" id="checkbox5"><label for="checkbox5">Setup Tailwind + shadcn/ui</label></li>
+<li class="has-line-data" data-line-start="163" data-line-end="164"><input type="checkbox" id="checkbox6"><label for="checkbox6">Setup Go backend (compatible with Beacon)</label></li>
+<li class="has-line-data" data-line-start="164" data-line-end="165"><input type="checkbox" id="checkbox7"><label for="checkbox7">Setup SQLite local-first + PostgreSQL config</label></li>
+<li class="has-line-data" data-line-start="165" data-line-end="166"><input type="checkbox" id="checkbox8"><label for="checkbox8">Setup WebSocket infrastructure</label></li>
+<li class="has-line-data" data-line-start="166" data-line-end="167"><input type="checkbox" id="checkbox9"><label for="checkbox9">Setup OpenTelemetry SDK</label></li>
+<li class="has-line-data" data-line-start="167" data-line-end="168"><input type="checkbox" id="checkbox10"><label for="checkbox10">Connect to Agent Beacon data pipeline</label></li>
+<li class="has-line-data" data-line-start="168" data-line-end="170"><input type="checkbox" id="checkbox11"><label for="checkbox11">Connect to Everything Claude Code config files</label></li>
+</ul>
+<hr>
+<h3 class="code-line has-line-data" data-line-start="172" data-line-end="173"><a id="Story_02_App_Shell_Navigation_172"></a>Story 0.2 — App Shell &amp; Navigation</h3>
+<p class="has-line-data" data-line-start="174" data-line-end="177"><strong>As a</strong> user,<br>
+<strong>I want</strong> a main layout with navigation,<br>
+<strong>So that</strong> I can move between sections.</p>
+<p class="has-line-data" data-line-start="178" data-line-end="179"><strong>Prototype:</strong></p>
+<pre><code class="has-line-data" data-line-start="181" data-line-end="232">┌──────────────────────────────────────────────────────────────────┐
+│  🧠 AgentOS                                    🔔 ⚙️  👤 User  │
+├──────────┬───────────────────────────────────────────────────────┤
+│          │                                                       │
+│ 📊 HOME  │                                                       │
+│ Overview │                                                       │
+│          │                                                       │
+│ ── 👁️ ──│              Welcome to AgentOS                       │
+│ OBSERVE  │              ─────────────────                        │
+│          │                                                       │
+│ 📈 Tokens│         &quot;The Operating System for                     │
+│ 🕸️ Graph │           your AI Agents&quot;                             │
+│ 📜 Sessns│                                                       │
+│ 🔗 Deps  │         [ 🚀 Quick Setup ]                            │
+│          │         [ 📡 Connect Beacon ]                         │
+│ ── 🎛️ ──│         [ ⚙️ Import Config ]                           │
+│ CONTROL  │                                                       │
+│          │                                                       │
+│ 🤖 Agents│                                                       │
+│ ⌨️ Cmds  │                                                       │
+│ 🪝 Hooks │                                                       │
+│ 🔌 Skills│                                                       │
+│ 💬 Chat  │                                                       │
+│ 💰 Budget│                                                       │
+│ 📋 Versns│                                                       │
+│          │                                                       │
+│ ── 📊 ──│                                                       │
+│UNDERSTAND│                                                       │
+│          │                                                       │
+│ 💎 ROI   │                                                       │
+│ 🏆 Models│                                                       │
+│ ⭐ Qualty│                                                       │
+│ 🚨 Alerts│                                                       │
+│          │                                                       │
+│ ── 🧠 ──│                                                       │
+│ EVOLVE   │                                                       │
+│          │                                                       │
+│ 🔍 Discvr│                                                       │
+│ 🔄 Router│                                                       │
+│ 🛠️ Heal  │                                                       │
+│ 🔮 WhatIf│                                                       │
+│          │                                                       │
+│ ── 🤝 ──│                                                       │
+│COLLABORATE                                                       │
+│          │                                                       │
+│ 👥 Team  │                                                       │
+│ 🏪 Market│                                                       │
+│ 🧩 Plugns│                                                       │
+│          │                                                       │
+└──────────┴───────────────────────────────────────────────────────┘
+</code></pre>
+<hr>
+<h2 class="code-line has-line-data" data-line-start="235" data-line-end="236"><a id="Sprint_1_Overview_Dashboard_235"></a>Sprint 1 — Overview Dashboard</h2>
+<p class="has-line-data" data-line-start="237" data-line-end="238"><strong>Duration:</strong> 2 weeks</p>
+<h3 class="code-line has-line-data" data-line-start="239" data-line-end="240"><a id="Story_11_Summary_Cards_239"></a>Story 1.1 — Summary Cards</h3>
+<p class="has-line-data" data-line-start="241" data-line-end="244"><strong>As a</strong> user,<br>
+<strong>I want</strong> to see system status at a glance,<br>
+<strong>So that</strong> I know everything is working.</p>
+<p class="has-line-data" data-line-start="245" data-line-end="246"><strong>Acceptance Criteria:</strong></p>
+<ul>
+<li class="has-line-data" data-line-start="246" data-line-end="247">Show count of active agents</li>
+<li class="has-line-data" data-line-start="247" data-line-end="248">Show today’s sessions count</li>
+<li class="has-line-data" data-line-start="248" data-line-end="249">Show total token usage + cost today</li>
+<li class="has-line-data" data-line-start="249" data-line-end="250">Show System Health Score</li>
+<li class="has-line-data" data-line-start="250" data-line-end="252">Show currently active model</li>
+</ul>
+<p class="has-line-data" data-line-start="252" data-line-end="253"><strong>Prototype:</strong></p>
+<pre><code class="has-line-data" data-line-start="255" data-line-end="283">┌──────────┬───────────────────────────────────────────────────────┐
+│          │                                                       │
+│ 📊 HOME  │  📊 Dashboard Overview                                │
+│ ●Overview│  ─────────────────────                                │
+│          │                                                       │
+│          │  ┌───────────┐ ┌───────────┐ ┌───────────┐ ┌────────┐│
+│          │  │ 🤖 Agents │ │ 📜 Sessions│ │ 💰 Cost   │ │ ❤️ Hlth││
+│          │  │           │ │           │ │  Today    │ │        ││
+│          │  │  7 active │ │  23 today │ │  $4.82    │ │  94%   ││
+│          │  │  2 idle   │ │  3 live ● │ │  ↑12%     │ │  ██████││
+│          │  └───────────┘ └───────────┘ └───────────┘ └────────┘│
+│          │                                                       │
+│          │  🟢 Active Model: Claude Sonnet 4    [Change ▾]       │
+│          │                                                       │
+│          │  ┌────────────────────────────────────────────────┐   │
+│          │  │  📈 Token Usage — Last 7 Days                  │   │
+│          │  │                                                │   │
+│          │  │  5K ┤          ╭─╮                              │   │
+│          │  │  4K ┤      ╭───╯ ╰─╮                           │   │
+│          │  │  3K ┤  ╭───╯       ╰──╮                        │   │
+│          │  │  2K ┤──╯               ╰─╮                     │   │
+│          │  │  1K ┤                     ╰──                   │   │
+│          │  │     └──┬──┬──┬──┬──┬──┬──                      │   │
+│          │  │       Mon Tue Wed Thu Fri Sat Sun               │   │
+│          │  │  ■ Input  ■ Output  ■ Cache                     │   │
+│          │  └────────────────────────────────────────────────┘   │
+└──────────┴───────────────────────────────────────────────────────┘
+</code></pre>
+<hr>
+<h3 class="code-line has-line-data" data-line-start="286" data-line-end="287"><a id="Story_12_Recent_Sessions_Feed_286"></a>Story 1.2 — Recent Sessions Feed</h3>
+<p class="has-line-data" data-line-start="288" data-line-end="291"><strong>As a</strong> user,<br>
+<strong>I want</strong> to see recent sessions,<br>
+<strong>So that</strong> I know what agents have been doing.</p>
+<p class="has-line-data" data-line-start="292" data-line-end="293"><strong>Prototype:</strong></p>
+<pre><code class="has-line-data" data-line-start="295" data-line-end="311">│  ┌────────────────────────────────────────────────┐   │
+│  │  📜 Recent Sessions                    [See All]│   │
+│  │                                                │   │
+│  │  ● #2891  Refactor auth module                 │   │
+│  │    🤖 code-writer  ⏱ 4m 23s  💰$0.34  🟢 Pass  │   │
+│  │    12 min ago                                  │   │
+│  │  ─────────────────────────────────────────     │   │
+│  │  ● #2890  Fix login bug                        │   │
+│  │    🤖 debugger  ⏱ 2m 11s  💰$0.18  🟢 Pass     │   │
+│  │    34 min ago                                  │   │
+│  │  ─────────────────────────────────────────     │   │
+│  │  ● #2889  Add API endpoint                     │   │
+│  │    🤖 code-writer  ⏱ 8m 45s  💰$0.72  🔴 Fail  │   │
+│  │    1 hour ago                                  │   │
+│  └────────────────────────────────────────────────┘   │
+</code></pre>
+<hr>
+<h3 class="code-line has-line-data" data-line-start="314" data-line-end="315"><a id="Story_13_Environment_Profile_Card_314"></a>Story 1.3 — Environment Profile Card</h3>
+<p class="has-line-data" data-line-start="316" data-line-end="319"><strong>As a</strong> user,<br>
+<strong>I want</strong> to see my auto-detected environment profile,<br>
+<strong>So that</strong> I know what the system has discovered.</p>
+<p class="has-line-data" data-line-start="320" data-line-end="321"><strong>Prototype:</strong></p>
+<pre><code class="has-line-data" data-line-start="323" data-line-end="342">│  ┌────────────────────────────────────────────────┐   │
+│  │  🌍 Environment Profile        [🔄 Re-scan]    │   │
+│  │                                                │   │
+│  │  Stack:     Next.js 14 + TypeScript             │   │
+│  │  Backend:   Node.js + Prisma + PostgreSQL       │   │
+│  │  CI/CD:     GitHub Actions                      │   │
+│  │  Testing:   Jest (coverage: 62%)                │   │
+│  │  Linting:   ESLint + Prettier ✅                │   │
+│  │  Docker:    Yes (docker-compose) ✅             │   │
+│  │  Last Scan: 2 hours ago                         │   │
+│  │                                                │   │
+│  │  ⚠️  3 Recommendations Available                │   │
+│  │  → Missing: Security Scanner Hook               │   │
+│  │  → Missing: Test Coverage Agent                 │   │
+│  │  → Upgrade: Prisma MCP (v1.2 → v1.4)          │   │
+│  │                                                │   │
+│  │  [📋 View Details] [🚀 Apply All]              │   │
+│  └────────────────────────────────────────────────┘   │
+</code></pre>
+<hr>
+<h3 class="code-line has-line-data" data-line-start="345" data-line-end="346"><a id="Story_14_Active_Alerts_Widget_345"></a>Story 1.4 — Active Alerts Widget</h3>
+<p class="has-line-data" data-line-start="347" data-line-end="350"><strong>As a</strong> user,<br>
+<strong>I want</strong> to see active alerts on the dashboard,<br>
+<strong>So that</strong> I can quickly spot problems.</p>
+<p class="has-line-data" data-line-start="351" data-line-end="352"><strong>Prototype:</strong></p>
+<pre><code class="has-line-data" data-line-start="354" data-line-end="369">│  ┌────────────────────────────────────────────────┐   │
+│  │  🚨 Active Alerts (3)                 [See All]│   │
+│  │                                                │   │
+│  │  🔴 CRITICAL  Agent &quot;researcher&quot; in loop       │   │
+│  │     15 iterations, $0.89 spent                 │   │
+│  │     [🛑 Kill] [👁️ View Session]                │   │
+│  │                                                │   │
+│  │  🟡 WARNING   Budget 80% used (Backend team)   │   │
+│  │     $160/$200 this month                        │   │
+│  │     [📊 Details] [💰 Increase]                 │   │
+│  │                                                │   │
+│  │  🟡 WARNING   GPT-4o API key expires in 3 days │   │
+│  │     [🔑 Renew] [❌ Dismiss]                    │   │
+│  └────────────────────────────────────────────────┘   │
+</code></pre>
+<hr>
+<h2 class="code-line has-line-data" data-line-start="372" data-line-end="373"><a id="Sprint_2_Token_Analytics_372"></a>Sprint 2 — Token Analytics</h2>
+<p class="has-line-data" data-line-start="374" data-line-end="375"><strong>Duration:</strong> 2 weeks</p>
+<h3 class="code-line has-line-data" data-line-start="376" data-line-end="377"><a id="Story_21_Token_Overview_Page_376"></a>Story 2.1 — Token Overview Page</h3>
+<p class="has-line-data" data-line-start="378" data-line-end="381"><strong>As a</strong> user,<br>
+<strong>I want</strong> to see overall token usage,<br>
+<strong>So that</strong> I can manage my costs.</p>
+<p class="has-line-data" data-line-start="382" data-line-end="383"><strong>Prototype:</strong></p>
+<pre><code class="has-line-data" data-line-start="385" data-line-end="409">┌──────────┬───────────────────────────────────────────────────────┐
+│ 📈 Tokens│  📈 Token Analytics                                   │
+│ ●        │                                                       │
+│          │  Period: [Today ▾] [This Week] [This Month] [Custom]  │
+│          │                                                       │
+│          │  ┌──────────┐ ┌──────────┐ ┌──────────┐ ┌──────────┐ │
+│          │  │Total Tkns│ │Total Cost│ │ Avg/Sess │ │Efficiency│ │
+│          │  │ 847,231  │ │  $12.84  │ │  3,421   │ │   87%    │ │
+│          │  │ ↑8% ▲    │ │ ↓3% ▼   │ │ ↓12% ▼   │ │ ↑5% ▲   │ │
+│          │  └──────────┘ └──────────┘ └──────────┘ └──────────┘ │
+│          │                                                       │
+│          │  ┌────────────────────────────────────────────────┐   │
+│          │  │  📊 Usage Over Time                            │   │
+│          │  │                                                │   │
+│          │  │  50K ┤                    ╭──╮                 │   │
+│          │  │  40K ┤            ╭───────╯  │                 │   │
+│          │  │  30K ┤     ╭──────╯          ╰───╮             │   │
+│          │  │  20K ┤─────╯                     ╰────         │   │
+│          │  │      └──┬──┬──┬──┬──┬──┬──┬──┬──              │   │
+│          │  │        1  3  5  7  9  11 13 15 17              │   │
+│          │  │  ── Input  ── Output  ·· Forecast               │   │
+│          │  └────────────────────────────────────────────────┘   │
+└──────────┴───────────────────────────────────────────────────────┘
+</code></pre>
+<hr>
+<h3 class="code-line has-line-data" data-line-start="412" data-line-end="413"><a id="Story_22_Token_Usage_by_Agent_412"></a>Story 2.2 — Token Usage by Agent</h3>
+<p class="has-line-data" data-line-start="414" data-line-end="417"><strong>As a</strong> user,<br>
+<strong>I want</strong> to see how many tokens each agent used,<br>
+<strong>So that</strong> I can identify expensive agents.</p>
+<p class="has-line-data" data-line-start="418" data-line-end="419"><strong>Prototype:</strong></p>
+<pre><code class="has-line-data" data-line-start="421" data-line-end="434">│  ┌────────────────────────────────────────────────┐   │
+│  │  🤖 Usage by Agent                             │   │
+│  │                                                │   │
+│  │  Agent          Tokens     Cost    Sessions    │   │
+│  │  ───────────────────────────────────────────── │   │
+│  │  🤖 code-writer 525,342    $7.96    89         │   │
+│  │  🤖 researcher  152,501    $2.31    34         │   │
+│  │  🤖 reviewer    101,677    $1.54    56         │   │
+│  │  🤖 tester       67,711    $1.03    42         │   │
+│  │                                                │   │
+│  │  Bar: 🟦62% 🟧18% 🟨12% 🟩8%                  │   │
+│  └────────────────────────────────────────────────┘   │
+</code></pre>
+<hr>
+<h3 class="code-line has-line-data" data-line-start="437" data-line-end="438"><a id="Story_23_Token_Usage_by_Model_437"></a>Story 2.3 — Token Usage by Model</h3>
+<p class="has-line-data" data-line-start="439" data-line-end="442"><strong>As a</strong> user,<br>
+<strong>I want</strong> to compare token usage across models,<br>
+<strong>So that</strong> I can make cost-efficient model choices.</p>
+<p class="has-line-data" data-line-start="443" data-line-end="444"><strong>Prototype:</strong></p>
+<pre><code class="has-line-data" data-line-start="446" data-line-end="463">│  ┌────────────────────────────────────────────────┐   │
+│  │  🏆 Usage by Model                             │   │
+│  │                                                │   │
+│  │  🟢 Claude Sonnet  534K  $8.01  63%            │   │
+│  │     ████████████████████░░░░░░░░░░             │   │
+│  │                                                │   │
+│  │  🟢 Claude Opus    201K  $6.03  24%            │   │
+│  │     ████████░░░░░░░░░░░░░░░░░░░░░░             │   │
+│  │                                                │   │
+│  │  🔴 GPT-4o         112K  $2.24  13%            │   │
+│  │     ████░░░░░░░░░░░░░░░░░░░░░░░░░░             │   │
+│  │     ⚠️ API Key expired — reconnect?             │   │
+│  │                                                │   │
+│  │  💡 Switching code-writer to Sonnet could      │   │
+│  │     save ~$2.40/month with similar quality     │   │
+│  └────────────────────────────────────────────────┘   │
+</code></pre>
+<hr>
+<h3 class="code-line has-line-data" data-line-start="466" data-line-end="467"><a id="Story_24_Single_Session_Token_Detail_466"></a>Story 2.4 — Single Session Token Detail</h3>
+<p class="has-line-data" data-line-start="468" data-line-end="471"><strong>As a</strong> user,<br>
+<strong>I want</strong> to see token breakdown for a specific session,<br>
+<strong>So that</strong> I know where tokens went.</p>
+<p class="has-line-data" data-line-start="472" data-line-end="473"><strong>Prototype:</strong></p>
+<pre><code class="has-line-data" data-line-start="475" data-line-end="492">│  ┌────────────────────────────────────────────────┐   │
+│  │  📜 Session #2891 Token Breakdown               │   │
+│  │  Total: 14,231 tokens ($0.34)                  │   │
+│  │                                                │   │
+│  │  Step                  In      Out     Cost     │   │
+│  │  ────────────────────────────────────────────  │   │
+│  │  1. Read files         1,204     342   $0.02   │   │
+│  │  2. Plan               2,891   1,456   $0.06   │   │
+│  │  3. Edit auth.ts         892   2,103   $0.05   │   │
+│  │  4. Edit middleware       445   1,234   $0.03   │   │
+│  │  5. Run tests            334     567   $0.01   │   │
+│  │  6. Fix test failure    1,023   1,402   $0.04   │   │
+│  │  7. Verify              1,892     446   $0.03   │   │
+│  │                                                │   │
+│  │  [Read][Plan][──Edit──][Mid][Tst][Fix][Verify]  │   │
+│  └────────────────────────────────────────────────┘   │
+</code></pre>
+<hr>
+<h2 class="code-line has-line-data" data-line-start="495" data-line-end="496"><a id="Sprint_3_Agent_Manager_495"></a>Sprint 3 — Agent Manager</h2>
+<p class="has-line-data" data-line-start="497" data-line-end="498"><strong>Duration:</strong> 2 weeks</p>
+<h3 class="code-line has-line-data" data-line-start="499" data-line-end="500"><a id="Story_31_Agent_List_Page_499"></a>Story 3.1 — Agent List Page</h3>
+<p class="has-line-data" data-line-start="501" data-line-end="504"><strong>As a</strong> user,<br>
+<strong>I want</strong> to see all my agents in one place,<br>
+<strong>So that</strong> I know what agents I have.</p>
+<p class="has-line-data" data-line-start="505" data-line-end="506"><strong>Prototype:</strong></p>
+<pre><code class="has-line-data" data-line-start="508" data-line-end="534">┌──────────┬───────────────────────────────────────────────────────┐
+│ 🤖 Agents│  🤖 Agent Registry                                    │
+│          │  [+ New Agent]  [📥 Import]  🔍 Search...             │
+│          │  Filter: [All ▾] [Active] [Idle] [Error]              │
+│          │                                                       │
+│          │  ┌────────────────────────────────────────────────┐   │
+│          │  │  🤖 code-writer                    🟢 Active   │   │
+│          │  │  Writes and edits code based on plans           │   │
+│          │  │  Model: Sonnet │ Sessions: 89 │ Cost: $7.96    │   │
+│          │  │  Success Rate: 94% │ ⭐ Quality: 8.4/10        │   │
+│          │  │  [⚙️ Config] [📊 Stats] [⏸️ Pause] [🗑️ Delete]│   │
+│          │  │                                                │   │
+│          │  │  🤖 researcher                     🟢 Active   │   │
+│          │  │  Researches codebase and docs for context       │   │
+│          │  │  Model: Sonnet │ Sessions: 34 │ Cost: $2.31    │   │
+│          │  │  Success Rate: 88% │ ⭐ Quality: 7.9/10        │   │
+│          │  │  [⚙️ Config] [📊 Stats] [⏸️ Pause] [🗑️ Delete]│   │
+│          │  │                                                │   │
+│          │  │  🤖 reviewer                       🟡 Idle     │   │
+│          │  │  Reviews PRs and code changes                  │   │
+│          │  │  Model: Opus  │ Sessions: 56 │ Cost: $1.54     │   │
+│          │  │  Success Rate: 96% │ ⭐ Quality: 9.1/10        │   │
+│          │  │  [⚙️ Config] [📊 Stats] [⏸️ Pause] [🗑️ Delete]│   │
+│          │  └────────────────────────────────────────────────┘   │
+└──────────┴───────────────────────────────────────────────────────┘
+</code></pre>
+<hr>
+<h3 class="code-line has-line-data" data-line-start="537" data-line-end="538"><a id="Story_32_Agent_Detail_Config_Page_537"></a>Story 3.2 — Agent Detail / Config Page</h3>
+<p class="has-line-data" data-line-start="539" data-line-end="542"><strong>As a</strong> user,<br>
+<strong>I want</strong> to see and edit full agent details,<br>
+<strong>So that</strong> I can configure agent behavior.</p>
+<p class="has-line-data" data-line-start="543" data-line-end="544"><strong>Prototype:</strong></p>
+<pre><code class="has-line-data" data-line-start="546" data-line-end="574">┌──────────┬───────────────────────────────────────────────────────┐
+│ 🤖 Agents│  🤖 code-writer                          🟢 Active    │
+│  ● Detail│  [General] [Skills] [Hooks] [MCPs] [Stats] [Logs]     │
+│          │                                                       │
+│          │  ┌─── General Settings ────────────────────────────┐  │
+│          │  │  Name:        [code-writer                   ]  │  │
+│          │  │  Description: [Writes and edits code based   ]  │  │
+│          │  │               [on plans and specifications   ]  │  │
+│          │  │  Model:       [Claude Sonnet 4          ▾]      │  │
+│          │  │  Max Tokens:  [100000                     ]     │  │
+│          │  │  Temperature: ──●──── 0.3                       │  │
+│          │  │                                                 │  │
+│          │  │  System Prompt:                                  │  │
+│          │  │  ┌───────────────────────────────────────────┐  │  │
+│          │  │  │ You are a senior developer who writes     │  │  │
+│          │  │  │ clean, tested, production-ready code...   │  │  │
+│          │  │  └───────────────────────────────────────────┘  │  │
+│          │  │                                                 │  │
+│          │  │  Rules:                                          │  │
+│          │  │  ☑ Follow TDD approach                          │  │
+│          │  │  ☑ Max 200 lines per file                       │  │
+│          │  │  ☑ Always add JSDoc comments                    │  │
+│          │  │  [+ Add Rule]                                   │  │
+│          │  │                                                 │  │
+│          │  │  [💾 Save Changes] [↩️ Reset] [📋 Export YAML]  │  │
+│          │  └─────────────────────────────────────────────────┘  │
+└──────────┴───────────────────────────────────────────────────────┘
+</code></pre>
+<hr>
+<h3 class="code-line has-line-data" data-line-start="577" data-line-end="578"><a id="Story_33_Create_New_Agent_Wizard_577"></a>Story 3.3 — Create New Agent Wizard</h3>
+<p class="has-line-data" data-line-start="579" data-line-end="582"><strong>As a</strong> user,<br>
+<strong>I want</strong> to create a new agent,<br>
+<strong>So that</strong> I can automate a specific task.</p>
+<p class="has-line-data" data-line-start="583" data-line-end="584"><strong>Prototype:</strong></p>
+<pre><code class="has-line-data" data-line-start="586" data-line-end="611">┌──────────┬───────────────────────────────────────────────────────┐
+│ 🤖 Agents│  ✨ Create New Agent                                   │
+│  ● New   │  Step 2 of 4: Define Purpose                          │
+│          │  ● ── ● ── ○ ── ○                                    │
+│          │  Name  Purpose  Config  Review                        │
+│          │                                                       │
+│          │  ┌── 💬 Describe It ──────────────────────────────┐  │
+│          │  │                                                 │  │
+│          │  │  ┌───────────────────────────────────────────┐  │  │
+│          │  │  │ I want an agent that reviews my database  │  │  │
+│          │  │  │ migrations before they run. It should     │  │  │
+│          │  │  │ check for destructive changes and missing  │  │  │
+│          │  │  │ indexes, and suggest rollback plans.      │  │  │
+│          │  │  └───────────────────────────────────────────┘  │  │
+│          │  │                                                 │  │
+│          │  │  🤖 I'll create:                                │  │
+│          │  │  ✅ Agent: &quot;migration-reviewer&quot;                 │  │
+│          │  │  ✅ Hook: pre-migration trigger                 │  │
+│          │  │  ✅ Skill: SQL analysis                         │  │
+│          │  │  ✅ MCP: Database connector (suggested)         │  │
+│          │  │                                                 │  │
+│          │  │          [← Back]  [Preview Config →]           │  │
+│          │  └─────────────────────────────────────────────────┘  │
+└──────────┴───────────────────────────────────────────────────────┘
+</code></pre>
+<hr>
+<h2 class="code-line has-line-data" data-line-start="614" data-line-end="615"><a id="Sprint_4_Command_Center_614"></a>Sprint 4 — Command Center</h2>
+<p class="has-line-data" data-line-start="616" data-line-end="617"><strong>Duration:</strong> 2 weeks</p>
+<h3 class="code-line has-line-data" data-line-start="618" data-line-end="619"><a id="Story_41_Command_List_Page_618"></a>Story 4.1 — Command List Page</h3>
+<p class="has-line-data" data-line-start="620" data-line-end="623"><strong>As a</strong> user,<br>
+<strong>I want</strong> to see all my commands,<br>
+<strong>So that</strong> I know what commands are available.</p>
+<p class="has-line-data" data-line-start="624" data-line-end="625"><strong>Prototype:</strong></p>
+<pre><code class="has-line-data" data-line-start="627" data-line-end="658">┌──────────┬───────────────────────────────────────────────────────┐
+│ ⌨️ Cmds  │  ⌨️ Command Center                                    │
+│          │  [+ New Command]  🔍 Search commands...               │
+│          │                                                       │
+│          │  ┌────────────────────────────────────────────────┐   │
+│          │  │  ⌨️ /plan                          📁 Built-in │   │
+│          │  │  Creates a detailed implementation plan         │   │
+│          │  │  Usage: /plan &lt;description&gt;                     │   │
+│          │  │  Used: 45 times │ Avg tokens: 2,340            │   │
+│          │  │  [📖 Docs] [⚙️ Edit] [📊 Stats]               │   │
+│          │  │                                                │   │
+│          │  │  ⌨️ /tdd                           📁 Built-in │   │
+│          │  │  Test-driven development implementation         │   │
+│          │  │  Usage: /tdd &lt;feature&gt;                          │   │
+│          │  │  Used: 32 times │ Avg tokens: 4,120            │   │
+│          │  │  [📖 Docs] [⚙️ Edit] [📊 Stats]               │   │
+│          │  │                                                │   │
+│          │  │  ⌨️ /verify                        📁 Built-in │   │
+│          │  │  Verifies implementation against the plan       │   │
+│          │  │  Usage: /verify                                 │   │
+│          │  │  Used: 28 times │ Avg tokens: 1,890            │   │
+│          │  │  [📖 Docs] [⚙️ Edit] [📊 Stats]               │   │
+│          │  │                                                │   │
+│          │  │  ⌨️ /review-pr                     📁 Custom   │   │
+│          │  │  Reviews a pull request for code quality        │   │
+│          │  │  Usage: /review-pr &lt;PR-number&gt;                 │   │
+│          │  │  Used: 12 times │ Avg tokens: 3,210            │   │
+│          │  │  [📖 Docs] [⚙️ Edit] [📊 Stats] [🗑️ Delete]  │   │
+│          │  └────────────────────────────────────────────────┘   │
+└──────────┴───────────────────────────────────────────────────────┘
+</code></pre>
+<hr>
+<h3 class="code-line has-line-data" data-line-start="661" data-line-end="662"><a id="Story_42_Command_Detail_Documentation_661"></a>Story 4.2 — Command Detail &amp; Documentation</h3>
+<p class="has-line-data" data-line-start="663" data-line-end="666"><strong>As a</strong> user,<br>
+<strong>I want</strong> to see full docs for each command,<br>
+<strong>So that</strong> I know how to use it.</p>
+<p class="has-line-data" data-line-start="667" data-line-end="668"><strong>Prototype:</strong></p>
+<pre><code class="has-line-data" data-line-start="670" data-line-end="695">│  ┌─── Documentation ───────────────────────────────────────┐  │
+│  │                                                         │  │
+│  │  📖 What does /plan do?                                 │  │
+│  │  Creates a comprehensive implementation plan before     │  │
+│  │  any code is written. Analyzes codebase and creates     │  │
+│  │  a step-by-step action plan saved to PLAN.md            │  │
+│  │                                                         │  │
+│  │  🔧 Usage: /plan &lt;what you want to build&gt;               │  │
+│  │                                                         │  │
+│  │  📝 Examples:                                           │  │
+│  │  /plan Add user authentication with JWT                 │  │
+│  │  /plan Refactor payment module to strategy pattern      │  │
+│  │  /plan Add rate limiting to all API endpoints           │  │
+│  │                                                         │  │
+│  │  ⚙️ Steps:                                              │  │
+│  │  1. Scan project structure                              │  │
+│  │  2. Identify relevant files                             │  │
+│  │  3. Analyze dependencies                                │  │
+│  │  4. Create ordered task list                            │  │
+│  │  5. Estimate effort per task                            │  │
+│  │  6. Save plan to PLAN.md                                │  │
+│  │                                                         │  │
+│  │  🔗 Related: /tdd → /verify                             │  │
+│  └─────────────────────────────────────────────────────────┘  │
+</code></pre>
+<hr>
+<h3 class="code-line has-line-data" data-line-start="698" data-line-end="699"><a id="Story_43_Create_New_Command_698"></a>Story 4.3 — Create New Command</h3>
+<p class="has-line-data" data-line-start="700" data-line-end="703"><strong>As a</strong> user,<br>
+<strong>I want</strong> to create a new command,<br>
+<strong>So that</strong> I can automate my specific workflows.</p>
+<p class="has-line-data" data-line-start="704" data-line-end="705"><strong>Prototype:</strong></p>
+<pre><code class="has-line-data" data-line-start="707" data-line-end="729">│  ┌─── 💬 Describe your command ────────────────────────────┐  │
+│  │                                                         │  │
+│  │  ┌───────────────────────────────────────────────────┐  │  │
+│  │  │ I want a command that generates API docs from my  │  │  │
+│  │  │ code comments. Scan all route files, extract      │  │  │
+│  │  │ JSDoc comments, create a markdown docs file.      │  │  │
+│  │  └───────────────────────────────────────────────────┘  │  │
+│  │                                                         │  │
+│  │  🤖 Generated Config:                                   │  │
+│  │  ┌───────────────────────────────────────────────────┐  │  │
+│  │  │ name: /gen-docs                                   │  │  │
+│  │  │ description: Generate API docs from comments      │  │  │
+│  │  │ agent: code-writer                                │  │  │
+│  │  │ steps:                                            │  │  │
+│  │  │   - scan: &quot;src/routes/**/*.ts&quot;                    │  │  │
+│  │  │   - extract: jsdoc_comments                       │  │  │
+│  │  │   - generate: &quot;docs/API.md&quot;                       │  │  │
+│  │  └───────────────────────────────────────────────────┘  │  │
+│  │                                                         │  │
+│  │  [✏️ Edit Config] [🧪 Test Run] [💾 Create]            │  │
+│  └─────────────────────────────────────────────────────────┘  │
+</code></pre>
+<hr>
+<h2 class="code-line has-line-data" data-line-start="732" data-line-end="733"><a id="Sprint_5_Hook_Manager_732"></a>Sprint 5 — Hook Manager</h2>
+<p class="has-line-data" data-line-start="734" data-line-end="735"><strong>Duration:</strong> 1.5 weeks</p>
+<h3 class="code-line has-line-data" data-line-start="736" data-line-end="737"><a id="Story_51_Hook_List_Management_736"></a>Story 5.1 — Hook List &amp; Management</h3>
+<p class="has-line-data" data-line-start="738" data-line-end="741"><strong>As a</strong> user,<br>
+<strong>I want</strong> to manage all my hooks,<br>
+<strong>So that</strong> I can control my automation workflow.</p>
+<p class="has-line-data" data-line-start="742" data-line-end="743"><strong>Prototype:</strong></p>
+<pre><code class="has-line-data" data-line-start="745" data-line-end="770">┌──────────┬───────────────────────────────────────────────────────┐
+│ 🪝 Hooks │  🪝 Hook Manager                                      │
+│          │  [+ New Hook]  Filter: [All ▾] [Pre] [Post] [Active]  │
+│          │                                                       │
+│          │  ┌────────────────────────────────────────────────┐   │
+│          │  │  🪝 session-start              ⏱ Pre-session   │   │
+│          │  │  Loads context from previous sessions           │   │
+│          │  │  Runs: Every session │ Avg: 1.2s               │   │
+│          │  │  Status: 🟢 Active │ Failures: 0               │   │
+│          │  │  [⚙️ Config] [📊 Logs] [⏸️ Disable]            │   │
+│          │  │                                                │   │
+│          │  │  🪝 pre-commit-check            ⏱ Pre-commit   │   │
+│          │  │  Runs linter and type-check before commit       │   │
+│          │  │  Runs: 156 times │ Avg: 3.4s                   │   │
+│          │  │  Status: 🟢 Active │ Failures: 12 (7.7%)       │   │
+│          │  │  [⚙️ Config] [📊 Logs] [⏸️ Disable]            │   │
+│          │  │                                                │   │
+│          │  │  🪝 session-end                 ⏱ Post-session  │   │
+│          │  │  Saves context and generates summary            │   │
+│          │  │  Runs: Every session │ Avg: 0.8s               │   │
+│          │  │  Status: 🟢 Active │ Failures: 2               │   │
+│          │  │  [⚙️ Config] [📊 Logs] [⏸️ Disable]            │   │
+│          │  └────────────────────────────────────────────────┘   │
+└──────────┴───────────────────────────────────────────────────────┘
+</code></pre>
+<hr>
+<h3 class="code-line has-line-data" data-line-start="773" data-line-end="774"><a id="Story_52_Hook_Detail_Config_Editor_773"></a>Story 5.2 — Hook Detail &amp; Config Editor</h3>
+<p class="has-line-data" data-line-start="775" data-line-end="778"><strong>As a</strong> user,<br>
+<strong>I want</strong> to edit hook configuration details,<br>
+<strong>So that</strong> I can fine-tune automation triggers.</p>
+<p class="has-line-data" data-line-start="779" data-line-end="780"><strong>Prototype:</strong></p>
+<pre><code class="has-line-data" data-line-start="782" data-line-end="804">│  ┌─── Config ──────────────────────────────────────────────┐  │
+│  │  Name:     [pre-commit-check              ]             │  │
+│  │  Trigger:  [Before Git Commit          ▾]               │  │
+│  │                                                         │  │
+│  │  Condition:                                              │  │
+│  │  ┌───────────────────────────────────────────────────┐  │  │
+│  │  │ files.changed.some(f =&gt;                           │  │  │
+│  │  │   f.endsWith('.ts') || f.endsWith('.tsx'))        │  │  │
+│  │  └───────────────────────────────────────────────────┘  │  │
+│  │                                                         │  │
+│  │  Actions:                                                │  │
+│  │  1 │ Run: eslint --fix {changed_files}                   │  │
+│  │  2 │ Run: tsc --noEmit                                   │  │
+│  │  3 │ Run: jest --related {changed_files}                 │  │
+│  │  [+ Add Action]                                         │  │
+│  │                                                         │  │
+│  │  On Failure: [● Block commit  ○ Warn only]              │  │
+│  │  Timeout:    [30] seconds                               │  │
+│  │                                                         │  │
+│  │  [💾 Save] [🧪 Test Run] [↩️ Reset]                     │  │
+│  └─────────────────────────────────────────────────────────┘  │
+</code></pre>
+<hr>
+<h2 class="code-line has-line-data" data-line-start="807" data-line-end="808"><a id="Sprint_6_Skill_MCP_Store_807"></a>Sprint 6 — Skill &amp; MCP Store</h2>
+<p class="has-line-data" data-line-start="809" data-line-end="810"><strong>Duration:</strong> 2 weeks</p>
+<h3 class="code-line has-line-data" data-line-start="811" data-line-end="812"><a id="Story_61_Browse_Page_811"></a>Story 6.1 — Browse Page</h3>
+<p class="has-line-data" data-line-start="813" data-line-end="816"><strong>As a</strong> user,<br>
+<strong>I want</strong> to browse available Skills and MCPs,<br>
+<strong>So that</strong> I can extend my agents’ capabilities.</p>
+<p class="has-line-data" data-line-start="817" data-line-end="818"><strong>Prototype:</strong></p>
+<pre><code class="has-line-data" data-line-start="820" data-line-end="844">┌──────────┬───────────────────────────────────────────────────────┐
+│ 🔌 Skills│  🔌 Skill &amp; MCP Store                                 │
+│          │  [Installed (8)] [Available (47)] [Updates (3)]       │
+│          │  🔍 Search...  Category: [All ▾] [Database] [Git]...  │
+│          │                                                       │
+│          │  ── Installed ──────────────────────────────────────  │
+│          │  ┌──────────────────────┐  ┌──────────────────────┐  │
+│          │  │ 🔌 GitLab MCP        │  │ 🔌 PostgreSQL MCP    │  │
+│          │  │ ⭐⭐⭐⭐⭐ (4.8)     │  │ ⭐⭐⭐⭐☆ (4.2)     │  │
+│          │  │ v2.1.0 ✅ Installed  │  │ v1.3.0 ✅ Installed  │  │
+│          │  │ Used by: 3 agents    │  │ Used by: 2 agents    │  │
+│          │  │ [⚙️ Config] [🔄 Upd] │  │ [⚙️ Config] [🗑️ Rm] │  │
+│          │  └──────────────────────┘  └──────────────────────┘  │
+│          │                                                       │
+│          │  ── Available ──────────────────────────────────────  │
+│          │  ┌──────────────────────┐  ┌──────────────────────┐  │
+│          │  │ 🔌 Jira MCP          │  │ 🎯 Security Scanner  │  │
+│          │  │ ⭐⭐⭐⭐☆ (4.3)     │  │ ⭐⭐⭐⭐⭐ (4.7)     │  │
+│          │  │ 📥 2,341 installs    │  │ 📥 5,892 installs    │  │
+│          │  │ Compatible ✅        │  │ Compatible ✅        │  │
+│          │  │ [📥 Install] [📖]   │  │ [📥 Install] [📖]   │  │
+│          │  └──────────────────────┘  └──────────────────────┘  │
+└──────────┴───────────────────────────────────────────────────────┘
+</code></pre>
+<hr>
+<h3 class="code-line has-line-data" data-line-start="847" data-line-end="848"><a id="Story_62_Detail_Page_with_Impact_Analysis_847"></a>Story 6.2 — Detail Page with Impact Analysis</h3>
+<p class="has-line-data" data-line-start="849" data-line-end="852"><strong>As a</strong> user,<br>
+<strong>I want</strong> to see impact analysis before installing/removing an MCP,<br>
+<strong>So that</strong> I understand what will change.</p>
+<p class="has-line-data" data-line-start="853" data-line-end="854"><strong>Prototype:</strong></p>
+<pre><code class="has-line-data" data-line-start="856" data-line-end="875">│  ┌─── Overview ────────────────────────────────────────────┐  │
+│  │  📝 Security Scanner Skill                              │  │
+│  │  Scans for SQL injection, XSS, hardcoded secrets...     │  │
+│  │                                                         │  │
+│  │  🔗 Compatible With:                                    │  │
+│  │  ✅ Your Stack: Next.js + TypeScript                    │  │
+│  │  ✅ Your Agents: code-writer, reviewer                  │  │
+│  │                                                         │  │
+│  │  📊 Impact Analysis (if installed):                     │  │
+│  │  ┌───────────────────────────────────────────────────┐  │  │
+│  │  │ ✅ code-writer will auto-check security           │  │  │
+│  │  │ ✅ reviewer will include security report          │  │  │
+│  │  │ ⚠️  pre-commit hook will add ~2s                  │  │  │
+│  │  │ 💰 Est. additional cost: $1.20/month              │  │  │
+│  │  └───────────────────────────────────────────────────┘  │  │
+│  │                                                         │  │
+│  │  [📥 Install Now]  [📋 Add to Queue]                   │  │
+│  └─────────────────────────────────────────────────────────┘  │
+</code></pre>
+<hr>
+<h2 class="code-line has-line-data" data-line-start="878" data-line-end="879"><a id="Sprint_7_Visual_Flow_Graph_878"></a>Sprint 7 — Visual Flow Graph</h2>
+<p class="has-line-data" data-line-start="880" data-line-end="881"><strong>Duration:</strong> 2 weeks</p>
+<h3 class="code-line has-line-data" data-line-start="882" data-line-end="883"><a id="Story_71_Agent_Pipeline_Graph_View_882"></a>Story 7.1 — Agent Pipeline Graph View</h3>
+<p class="has-line-data" data-line-start="884" data-line-end="887"><strong>As a</strong> user,<br>
+<strong>I want</strong> to see a visual graph of agents and hooks,<br>
+<strong>So that</strong> I understand the execution flow.</p>
+<p class="has-line-data" data-line-start="888" data-line-end="889"><strong>Prototype:</strong></p>
+<pre><code class="has-line-data" data-line-start="891" data-line-end="933">┌──────────┬───────────────────────────────────────────────────────┐
+│ 🕸️ Graph │  🕸️ Agent Flow Graph                                  │
+│          │  [View ▾] [Edit Mode ○] [Live Mode ●] [Zoom: 100%]   │
+│          │                                                       │
+│          │  ┌────────────────────────────────────────────────┐   │
+│          │  │          ┌──────────────┐                       │   │
+│          │  │          │ 👤 User      │                       │   │
+│          │  │          │    Prompt    │                       │   │
+│          │  │          └──────┬───────┘                       │   │
+│          │  │                 ▼                               │   │
+│          │  │          ┌──────────────┐                       │   │
+│          │  │          │🧠 Orchestratr│  ████░ 2.1K            │   │
+│          │  │          └──┬───┬───┬───┘                       │   │
+│          │  │        ┌────┘   │   └────┐                      │   │
+│          │  │        ▼        ▼        ▼                      │   │
+│          │  │  ┌──────────┐ ┌──────┐ ┌──────┐                │   │
+│          │  │  │📋 Plannr │ │🔍Rsch│ │🧪Tstr│                │   │
+│          │  │  │ ██░ 1.4K │ │████3K│ │█ 0.8K│                │   │
+│          │  │  └────┬─────┘ └──┬───┘ └──┬───┘                │   │
+│          │  │       └─────┬────┘         │                    │   │
+│          │  │             ▼              │                    │   │
+│          │  │       ┌──────────┐         │                    │   │
+│          │  │       │⚡pre-edit│         │                    │   │
+│          │  │       └────┬─────┘         │                    │   │
+│          │  │            ▼               │                    │   │
+│          │  │       ┌──────────┐◄────────┘                    │   │
+│          │  │       │✏️ Writer │  ██████ 5.2K                  │   │
+│          │  │       └────┬─────┘                               │   │
+│          │  │            ▼                                     │   │
+│          │  │       ┌──────────┐                               │   │
+│          │  │       │⚡post-edt│                               │   │
+│          │  │       └────┬─────┘                               │   │
+│          │  │            ▼                                     │   │
+│          │  │       ┌──────────┐                               │   │
+│          │  │       │✅ Verifyr│  ███░ 2.8K                    │   │
+│          │  │       └──────────┘                               │   │
+│          │  │                                                │   │
+│          │  │  Token Heat: 🟦Low 🟨Med 🟥High                │   │
+│          │  │  ⏱ Bottleneck: 🔍Researcher (3.2s avg)         │   │
+│          │  └────────────────────────────────────────────────┘   │
+└──────────┴───────────────────────────────────────────────────────┘
+</code></pre>
+<hr>
+<h3 class="code-line has-line-data" data-line-start="936" data-line-end="937"><a id="Story_72_Drag_Drop_Graph_Editor_936"></a>Story 7.2 — Drag &amp; Drop Graph Editor</h3>
+<p class="has-line-data" data-line-start="938" data-line-end="941"><strong>As a</strong> user,<br>
+<strong>I want</strong> to edit the pipeline visually using drag &amp; drop,<br>
+<strong>So that</strong> I don’t need to write YAML manually.</p>
+<p class="has-line-data" data-line-start="942" data-line-end="943"><strong>Prototype:</strong></p>
+<pre><code class="has-line-data" data-line-start="945" data-line-end="965">│  ┌─ Palette ──┐ ┌──── Canvas ─────────────────────────────┐   │
+│  │            │ │                                          │   │
+│  │ 🤖 Agent   │ │   ┌──────────┐                           │   │
+│  │ drag→ add  │ │   │ 📋Planner│──────┐                    │   │
+│  │            │ │   └──────────┘      ▼                    │   │
+│  │ ⚡ Hook    │ │                ┌───────────┐             │   │
+│  │ drag→ add  │ │                │⚡ pre-edit │             │   │
+│  │            │ │                └─────┬─────┘             │   │
+│  │ 🔀 Conditn │ │                      ▼                   │   │
+│  │ drag→ add  │ │   ╔═══════════════════════════╗          │   │
+│  │            │ │   ║ 🤖 New Agent   ✏️ 🗑️     ║          │   │
+│  │ 🔄 Loop    │ │   ║  Name: [___________]      ║          │   │
+│  │ drag→ add  │ │   ║  Type: [Code Writer▾]     ║          │   │
+│  │            │ │   ║  Model:[Sonnet      ▾]    ║          │   │
+│  └────────────┘ │   ╚═══════════════════════════╝          │   │
+│                 │                                          │   │
+│                 │  [💾 Save Pipeline] [🧪 Test]            │   │
+│                 │  [📋 Export YAML]  [↩️ Undo]             │   │
+│                 └──────────────────────────────────────────┘   │
+</code></pre>
+<hr>
+<h2 class="code-line has-line-data" data-line-start="968" data-line-end="969"><a id="Sprint_8_ChattoConfig_968"></a>Sprint 8 — Chat-to-Config</h2>
+<p class="has-line-data" data-line-start="970" data-line-end="971"><strong>Duration:</strong> 2 weeks</p>
+<h3 class="code-line has-line-data" data-line-start="972" data-line-end="973"><a id="Story_81_Chat_Interface_for_Configuration_972"></a>Story 8.1 — Chat Interface for Configuration</h3>
+<p class="has-line-data" data-line-start="974" data-line-end="977"><strong>As a</strong> user,<br>
+<strong>I want</strong> to configure my system using natural language,<br>
+<strong>So that</strong> I don’t need to fill out forms.</p>
+<p class="has-line-data" data-line-start="978" data-line-end="979"><strong>Prototype:</strong></p>
+<pre><code class="has-line-data" data-line-start="981" data-line-end="1017">┌──────────┬───────────────────────────────────────────────────────┐
+│ 💬 Chat  │  💬 AgentOS Assistant                                  │
+│          │                                                       │
+│          │  ┌────────────────────────────────────────────────┐   │
+│          │  │  🤖 Hi! I can create agents, hooks, commands,   │   │
+│          │  │     install skills/MCPs, and debug issues.      │   │
+│          │  │  What would you like to do?                     │   │
+│          │  │                                                │   │
+│          │  │  👤 میخوام وقتی PR میزنم، خودکار کدم ریویو     │   │
+│          │  │     بشه و اگه مشکل امنیتی داشت merge نشه       │   │
+│          │  │                                                │   │
+│          │  │  🤖 فهمیدم! ۴ چیز لازمه:                        │   │
+│          │  │                                                │   │
+│          │  │  ┌──────────────────────────────────────────┐  │   │
+│          │  │  │ 1. 🤖 Agent: security-reviewer           │  │   │
+│          │  │  │    Model: Claude Opus                     │  │   │
+│          │  │  │    [Preview ▾]  [✏️ Edit]  [✅ Accept]    │  │   │
+│          │  │  │                                          │  │   │
+│          │  │  │ 2. 🪝 Hook: pre-merge                    │  │   │
+│          │  │  │    [Preview ▾]  [✏️ Edit]  [✅ Accept]    │  │   │
+│          │  │  │                                          │  │   │
+│          │  │  │ 3. 🔌 MCP: GitHub/GitLab Integration     │  │   │
+│          │  │  │    [Preview ▾]  [✏️ Edit]  [✅ Accept]    │  │   │
+│          │  │  │                                          │  │   │
+│          │  │  │ 4. 🎯 Skill: Security Scanner            │  │   │
+│          │  │  │    [Preview ▾]  [✏️ Edit]  [✅ Accept]    │  │   │
+│          │  │  │                                          │  │   │
+│          │  │  │ Est. cost: ~$3.20/month                  │  │   │
+│          │  │  │ [🚀 Apply All (4)] [📋 Export Blueprint]  │  │   │
+│          │  │  └──────────────────────────────────────────┘  │   │
+│          │  └────────────────────────────────────────────────┘   │
+│          │  ┌────────────────────────────────────────────────┐   │
+│          │  │  💬 Type your request...               [Send]  │   │
+│          │  └────────────────────────────────────────────────┘   │
+└──────────┴───────────────────────────────────────────────────────┘
+</code></pre>
+<hr>
+<h3 class="code-line has-line-data" data-line-start="1020" data-line-end="1021"><a id="Story_82_Conversational_Debugging_1020"></a>Story 8.2 — Conversational Debugging</h3>
+<p class="has-line-data" data-line-start="1022" data-line-end="1025"><strong>As a</strong> user,<br>
+<strong>I want</strong> to debug agent issues through chat,<br>
+<strong>So that</strong> I don’t have to manually investigate logs.</p>
+<p class="has-line-data" data-line-start="1026" data-line-end="1027"><strong>Prototype:</strong></p>
+<pre><code class="has-line-data" data-line-start="1029" data-line-end="1056">│  👤 ایجنتم خیلی کند شده، چشه؟                                    │
+│                                                                  │
+│  🤖 بررسی کردم. ۳ مشکل پیدا کردم:                                │
+│                                                                  │
+│  ┌──────────────────────────────────────────────┐               │
+│  │ 🔴 Issue 1: Hook &quot;pre-edit&quot; is slow          │               │
+│  │ Avg time: 4.2s (was 1.1s last week)           │               │
+│  │ Cause: Linting entire project vs changed files│               │
+│  │ Fix: Scope lint to changed files only          │               │
+│  │ [🔧 Auto-Fix]  [👁️ Show Diff]                │               │
+│  └──────────────────────────────────────────────┘               │
+│                                                                  │
+│  ┌──────────────────────────────────────────────┐               │
+│  │ 🟡 Issue 2: &quot;researcher&quot; reads 340 files/sess │               │
+│  │ (up from 45 after /docs folder added)          │               │
+│  │ Fix: Exclude /docs from search scope           │               │
+│  │ [🔧 Auto-Fix]  [👁️ Show Details]              │               │
+│  └──────────────────────────────────────────────┘               │
+│                                                                  │
+│  ┌──────────────────────────────────────────────┐               │
+│  │ 🟡 Issue 3: Cache hit rate 12% (should be 60%)│               │
+│  │ Fix: Enable session-end hook for caching       │               │
+│  │ [🔧 Auto-Fix]  [👁️ Show Details]              │               │
+│  └──────────────────────────────────────────────┘               │
+│                                                                  │
+│  [🚀 Fix All 3 Issues]                                          │
+</code></pre>
+<hr>
+<h2 class="code-line has-line-data" data-line-start="1059" data-line-end="1060"><a id="Sprint_9_Budget_Safety_1059"></a>Sprint 9 — Budget &amp; Safety</h2>
+<p class="has-line-data" data-line-start="1061" data-line-end="1062"><strong>Duration:</strong> 2 weeks</p>
+<h3 class="code-line has-line-data" data-line-start="1063" data-line-end="1064"><a id="Story_91_Budget_Dashboard_1063"></a>Story 9.1 — Budget Dashboard</h3>
+<p class="has-line-data" data-line-start="1065" data-line-end="1068"><strong>As a</strong> user,<br>
+<strong>I want</strong> to manage budgets by agent and team,<br>
+<strong>So that</strong> I can control costs.</p>
+<p class="has-line-data" data-line-start="1069" data-line-end="1070"><strong>Prototype:</strong></p>
+<pre><code class="has-line-data" data-line-start="1072" data-line-end="1091">┌──────────┬───────────────────────────────────────────────────────┐
+│ 💰 Budget│  💰 Budget &amp; Safety Control                            │
+│          │  [Budget] [Kill Switches] [Alerts Config]             │
+│          │                                                       │
+│          │  ┌─── Monthly Budget Overview ─────────────────────┐  │
+│          │  │                                                 │  │
+│          │  │  Global:  $142 / $500          [████████░░] 28%  │  │
+│          │  │  ├─ Backend Team:  $89 / $200  [████████░░] 45%  │  │
+│          │  │  │  ├─ code-writer:  $52       [██████████] 87%⚠️│  │
+│          │  │  │  ├─ researcher:   $23       [█████░░░░░] 46%  │  │
+│          │  │  │  └─ tester:       $14       [███░░░░░░░] 28%  │  │
+│          │  │  ├─ Frontend Team: $38 / $150  [███░░░░░░░] 25%  │  │
+│          │  │  └─ DevOps Team:   $15 / $150  [█░░░░░░░░░] 10%  │  │
+│          │  │                                                 │  │
+│          │  │  📊 Forecast: ~$340 by month end (within budget) │  │
+│          │  │  ⚠️ code-writer may exceed limit in 4 days       │  │
+│          │  └─────────────────────────────────────────────────┘  │
+└──────────┴───────────────────────────────────────────────────────┘
+</code></pre>
+<hr>
+<h3 class="code-line has-line-data" data-line-start="1094" data-line-end="1095"><a id="Story_92_Kill_Switch_Configuration_1094"></a>Story 9.2 — Kill Switch Configuration</h3>
+<p class="has-line-data" data-line-start="1096" data-line-end="1099"><strong>As a</strong> user,<br>
+<strong>I want</strong> to set auto-stop rules for agents,<br>
+<strong>So that</strong> agents can’t go out of control.</p>
+<p class="has-line-data" data-line-start="1100" data-line-end="1101"><strong>Prototype:</strong></p>
+<pre><code class="has-line-data" data-line-start="1103" data-line-end="1126">│  ┌─── Kill Switch Rules ───────────────────────────────────┐  │
+│  │  [+ Add Rule]                                           │  │
+│  │                                                         │  │
+│  │  IF [session_cost    ▾] [&gt;  ▾] [$1.00   ]              │  │
+│  │  THEN [🛑 Kill Session ▾]                               │  │
+│  │  AND  [📧 Send Alert  ▾]                                │  │
+│  │  Triggered: 3 times │ Last: 2 days ago                  │  │
+│  │                                                         │  │
+│  │  IF [loop_iterations ▾] [&gt;  ▾] [5       ]              │  │
+│  │  THEN [🛑 Kill Session ▾]                               │  │
+│  │  AND  [📧 Send Alert  ▾]                                │  │
+│  │  Triggered: 1 time  │ Last: 5 days ago                  │  │
+│  │                                                         │  │
+│  │  IF [daily_spend     ▾] [&gt;  ▾] [80%     ]              │  │
+│  │  THEN [⏬ Downgrade Model ▾] Opus → Sonnet              │  │
+│  │  Triggered: 0 times                                     │  │
+│  │                                                         │  │
+│  │  ┌──────────────────────────────────────────┐           │  │
+│  │  │  🔴 EMERGENCY: STOP ALL AGENTS           │           │  │
+│  │  │     [🛑 EMERGENCY STOP]                  │           │  │
+│  │  └──────────────────────────────────────────┘           │  │
+│  └─────────────────────────────────────────────────────────┘  │
+</code></pre>
+<hr>
+<h3 class="code-line has-line-data" data-line-start="1129" data-line-end="1130"><a id="Story_93_Cost_Prediction_Before_Execution_1129"></a>Story 9.3 — Cost Prediction Before Execution</h3>
+<p class="has-line-data" data-line-start="1131" data-line-end="1134"><strong>As a</strong> user,<br>
+<strong>I want</strong> to see cost estimate before a task runs,<br>
+<strong>So that</strong> I can approve or cancel expensive tasks.</p>
+<p class="has-line-data" data-line-start="1135" data-line-end="1136"><strong>Prototype:</strong></p>
+<pre><code class="has-line-data" data-line-start="1138" data-line-end="1156">│  ┌─── Pre-Execution Cost Estimate ─────────────────────────┐  │
+│  │  📋 Task: &quot;Refactor payment module&quot;                     │  │
+│  │  🤖 Agent: code-writer │ 🏆 Model: Claude Sonnet        │  │
+│  │                                                         │  │
+│  │  Input Tokens:   ~12,000    $0.04                       │  │
+│  │  Output Tokens:  ~8,500     $0.13                       │  │
+│  │  Tool Calls:     ~5         $0.02                       │  │
+│  │  ─────────────────────────────                          │  │
+│  │  Total Estimate:             $0.19                      │  │
+│  │  Confidence: 78% │ Range: $0.12 - $0.34                 │  │
+│  │                                                         │  │
+│  │  💡 Alternative: Use Haiku for $0.03                    │  │
+│  │     (quality may drop ~15% for this task type)          │  │
+│  │                                                         │  │
+│  │  Budget remaining today: $4.82                          │  │
+│  │  [▶️ Execute ($0.19)] [💡 Use Cheaper] [❌ Cancel]      │  │
+│  └─────────────────────────────────────────────────────────┘  │
+</code></pre>
+<hr>
+<h2 class="code-line has-line-data" data-line-start="1159" data-line-end="1160"><a id="Sprint_10_Session_Explorer_TimeTravel_1159"></a>Sprint 10 — Session Explorer &amp; Time-Travel</h2>
+<p class="has-line-data" data-line-start="1161" data-line-end="1162"><strong>Duration:</strong> 2.5 weeks</p>
+<h3 class="code-line has-line-data" data-line-start="1163" data-line-end="1164"><a id="Story_101_Session_List_Explorer_1163"></a>Story 10.1 — Session List &amp; Explorer</h3>
+<p class="has-line-data" data-line-start="1165" data-line-end="1168"><strong>As a</strong> user,<br>
+<strong>I want</strong> to browse and filter all sessions,<br>
+<strong>So that</strong> I can find and analyze specific runs.</p>
+<p class="has-line-data" data-line-start="1169" data-line-end="1170"><strong>Prototype:</strong></p>
+<pre><code class="has-line-data" data-line-start="1172" data-line-end="1193">┌──────────┬───────────────────────────────────────────────────────┐
+│ 📜 Sessns│  📜 Session Explorer                                   │
+│          │  🔍 Search... │ Agent [All ▾] │ Status [All ▾]        │
+│          │                                                       │
+│          │  #2891  Refactor auth      writer    🟢 Pass           │
+│          │         ⏱ 4m 23s  💰$0.34  🏆 Sonnet  📊 8.5          │
+│          │         Timeline: ●──●──●──●──●──●──●                  │
+│          │         [👁️ View] [⏪ Replay] [🔀 Branch]              │
+│          │                                                       │
+│          │  #2890  Fix login bug      debugger  🟢 Pass           │
+│          │         ⏱ 2m 11s  💰$0.18  🏆 Sonnet  📊 9.1          │
+│          │         Timeline: ●──●──●──●──●                        │
+│          │         [👁️ View] [⏪ Replay] [🔀 Branch]              │
+│          │                                                       │
+│          │  #2889  Add API endpoint   writer    🔴 Fail           │
+│          │         ⏱ 8m 45s  💰$0.72  🏆 Opus    📊 4.2          │
+│          │         Timeline: ●──●──●──●──●──●──⊗                  │
+│          │         ⚠️ Loop detected at step 5                      │
+│          │         [👁️ View] [⏪ Replay] [🔀 Branch]              │
+└──────────┴───────────────────────────────────────────────────────┘
+</code></pre>
+<hr>
+<h3 class="code-line has-line-data" data-line-start="1196" data-line-end="1197"><a id="Story_102_TimeTravel_Session_Debugger_1196"></a>Story 10.2 — Time-Travel Session Debugger</h3>
+<p class="has-line-data" data-line-start="1198" data-line-end="1201"><strong>As a</strong> user,<br>
+<strong>I want</strong> to step through a session’s history,<br>
+<strong>So that</strong> I can find where an agent went wrong.</p>
+<p class="has-line-data" data-line-start="1202" data-line-end="1203"><strong>Prototype:</strong></p>
+<pre><code class="has-line-data" data-line-start="1205" data-line-end="1238">┌──────────┬───────────────────────────────────────────────────────┐
+│ 📜 Sessns│  ⏪ Session #2889 — Time-Travel Debugger               │
+│  ● Detail│  Task: &quot;Add API endpoint for user preferences&quot;        │
+│          │  Agent: code-writer │ Result: ❌ Failed                │
+│          │                                                       │
+│          │  Timeline: ●───●───●───●───●───●───⊗                  │
+│          │            T1  T2  T3  T4 [T5] T6  T7 ← selected      │
+│          │                                                       │
+│          │  ┌─── Step T5: Edit routes.ts ─────────────────────┐  │
+│          │  │  ⏱ 45s  │  💰 $0.12  │  Tokens: 2,341 / 1,892   │  │
+│          │  │                                                 │  │
+│          │  │  🧠 Agent Thought:                               │  │
+│          │  │  &quot;I need to add a new route for user prefs.     │  │
+│          │  │   Looking at the existing pattern, I should     │  │
+│          │  │   also modify the auth middleware...&quot;            │  │
+│          │  │                                                 │  │
+│          │  │  🔧 Tool Calls:                                  │  │
+│          │  │  ├── read_file(&quot;src/routes/index.ts&quot;) ✅        │  │
+│          │  │  ├── read_file(&quot;src/middleware/auth.ts&quot;) ✅      │  │
+│          │  │  └── edit_file(&quot;src/routes/preferences.ts&quot;) ✅  │  │
+│          │  │                                                 │  │
+│          │  │  ⚠️ Issue: Missing input validation              │  │
+│          │  │     This led to test failure in T7              │  │
+│          │  │                                                 │  │
+│          │  │  ┌──────────────────────────────────────────┐   │  │
+│          │  │  │ [🔀 Branch from T5]                      │   │  │
+│          │  │  │ Override: Add input validation using zod  │   │  │
+│          │  │  │ [▶️ Run New Branch]  [💰 Est: $0.08]     │   │  │
+│          │  │  └──────────────────────────────────────────┘   │  │
+│          │  │  [◀️ Prev] [▶️ Next] [↩️ Revert to T4]          │  │
+│          │  └─────────────────────────────────────────────────┘  │
+└──────────┴───────────────────────────────────────────────────────┘
+</code></pre>
+<hr>
+<h3 class="code-line has-line-data" data-line-start="1241" data-line-end="1242"><a id="Story_103_Branch_Comparison_View_1241"></a>Story 10.3 — Branch Comparison View</h3>
+<p class="has-line-data" data-line-start="1243" data-line-end="1246"><strong>As a</strong> user,<br>
+<strong>I want</strong> to compare two execution paths,<br>
+<strong>So that</strong> I can learn which approach is better.</p>
+<p class="has-line-data" data-line-start="1247" data-line-end="1248"><strong>Prototype:</strong></p>
+<pre><code class="has-line-data" data-line-start="1250" data-line-end="1269">│  ┌─── Branch Comparison ───────────────────────────────────┐  │
+│  │                                                         │  │
+│  │  Original (❌ Failed)        Branch A (✅ Passed)       │  │
+│  │  ●──●──●──●──●──●──⊗        ●──●──●──●──●'──●'──●'    │  │
+│  │                                                         │  │
+│  │  Steps:    7                 Steps:    7                 │  │
+│  │  Tokens:   14.2K             Tokens:   11.8K             │  │
+│  │  Cost:     $0.72             Cost:     $0.41             │  │
+│  │  Quality:  4.2               Quality:  8.7               │  │
+│  │  Result:   ❌                Result:   ✅                │  │
+│  │                                                         │  │
+│  │  Key Diff at T5:                                         │  │
+│  │  Original: No input validation                          │  │
+│  │  Branch A: Added zod schema                             │  │
+│  │                                                         │  │
+│  │  💡 Add rule &quot;always validate input&quot; to code-writer?     │  │
+│  │  [🔧 Add Rule Automatically]                            │  │
+│  └─────────────────────────────────────────────────────────┘  │
+</code></pre>
+<hr>
+<h2 class="code-line has-line-data" data-line-start="1272" data-line-end="1273"><a id="Sprint_11_Model_Intelligence_1272"></a>Sprint 11 — Model Intelligence</h2>
+<p class="has-line-data" data-line-start="1274" data-line-end="1275"><strong>Duration:</strong> 2 weeks</p>
+<h3 class="code-line has-line-data" data-line-start="1276" data-line-end="1277"><a id="Story_111_Model_Ranking_Dashboard_1276"></a>Story 11.1 — Model Ranking Dashboard</h3>
+<p class="has-line-data" data-line-start="1278" data-line-end="1281"><strong>As a</strong> user,<br>
+<strong>I want</strong> to see model rankings,<br>
+<strong>So that</strong> I can choose the best model.</p>
+<p class="has-line-data" data-line-start="1282" data-line-end="1283"><strong>Prototype:</strong></p>
+<pre><code class="has-line-data" data-line-start="1285" data-line-end="1313">┌──────────┬───────────────────────────────────────────────────────┐
+│ 🏆 Models│  🏆 Model Intelligence                                 │
+│          │  [Ranking] [Comparison] [Router Config] [Benchmark]   │
+│          │                                                       │
+│          │  #  Model            Status  Score  Avg Cost           │
+│          │  ────────────────────────────────────────────────     │
+│          │  1  Claude Sonnet 4  🟢      94/100  $0.015/K         │
+│          │     ████████████████████████████████████████████     │
+│          │     Currently active for: 4 agents                    │
+│          │                                                       │
+│          │  2  Claude Opus 4    🟢      91/100  $0.075/K         │
+│          │     ██████████████████████████████████████████░░     │
+│          │     Currently active for: 1 agent                     │
+│          │                                                       │
+│          │  3  GPT-4o           🔴      82/100  $0.025/K         │
+│          │     ██████████████████████████████░░░░░░░░░░░░░░     │
+│          │     ⚠️ API key expired 2 days ago  [🔑 Reconnect]     │
+│          │                                                       │
+│          │  4  DeepSeek R1      🟢      76/100  $0.004/K         │
+│          │     ████████████████████████░░░░░░░░░░░░░░░░░░░░     │
+│          │                                                       │
+│          │  5  Llama 4          🆕      ??/100  $0.002/K         │
+│          │     🧪 Benchmarking... 34% complete                    │
+│          │     [⏸️ Pause] [View Progress]                        │
+│          │                                                       │
+│          │  [+ Add Model]  [🔄 Re-benchmark All]                 │
+└──────────┴───────────────────────────────────────────────────────┘
+</code></pre>
+<hr>
+<h3 class="code-line has-line-data" data-line-start="1316" data-line-end="1317"><a id="Story_112_Ranking_by_Task_Type_1316"></a>Story 11.2 — Ranking by Task Type</h3>
+<p class="has-line-data" data-line-start="1318" data-line-end="1321"><strong>As a</strong> user,<br>
+<strong>I want</strong> to know which model excels at which task type,<br>
+<strong>So that</strong> I can route tasks intelligently.</p>
+<p class="has-line-data" data-line-start="1322" data-line-end="1323"><strong>Prototype:</strong></p>
+<pre><code class="has-line-data" data-line-start="1325" data-line-end="1338">│  Task Type          Best         Runner-up      Third          │
+│  ────────────────────────────────────────────────────────     │
+│  🔨 Code Generation  Opus (96)   Sonnet (91)   GPT-4o (84)   │
+│  🔍 Code Review      Opus (94)   GPT-4o (88)   Sonnet (85)   │
+│  🐛 Bug Fixing       Sonnet (93) Opus (90)     DeepSk (72)   │
+│  📝 Documentation    Sonnet (92) GPT-4o (87)   DeepSk (81)   │
+│  🧪 Test Writing     Sonnet (95) Opus (89)     GPT-4o (82)   │
+│  🔄 Refactoring      Opus (97)   Sonnet (88)   GPT-4o (79)   │
+│                                                               │
+│  💡 You use Opus for Bug Fixing but Sonnet scores higher      │
+│     AND costs 80% less for this task type.                    │
+│  [🔧 Switch Automatically]                                    │
+</code></pre>
+<hr>
+<h3 class="code-line has-line-data" data-line-start="1341" data-line-end="1342"><a id="Story_113_AutoModel_Router_Configuration_1341"></a>Story 11.3 — Auto-Model Router Configuration</h3>
+<p class="has-line-data" data-line-start="1343" data-line-end="1346"><strong>As a</strong> user,<br>
+<strong>I want</strong> models to be auto-selected based on task type,<br>
+<strong>So that</strong> I always get the best quality/cost balance.</p>
+<p class="has-line-data" data-line-start="1347" data-line-end="1348"><strong>Prototype:</strong></p>
+<pre><code class="has-line-data" data-line-start="1350" data-line-end="1371">│  ┌─── Auto-Model Router ──────────────────────────────────┐  │
+│  │  Mode: [● Automatic  ○ Manual  ○ Budget-First]          │  │
+│  │                                                         │  │
+│  │  Task Type        Primary    Fallback                   │  │
+│  │  ──────────────────────────────────────                 │  │
+│  │  Code Generation  Opus       Sonnet                     │  │
+│  │  Code Review      Opus       GPT-4o                     │  │
+│  │  Bug Fixing       Sonnet     Opus                       │  │
+│  │  Documentation    Sonnet     DeepSeek                   │  │
+│  │  Test Writing     Sonnet     Opus                       │  │
+│  │  Refactoring      Opus       Sonnet                     │  │
+│  │  Simple Tasks     DeepSeek   Sonnet                     │  │
+│  │                                                         │  │
+│  │  Budget-Aware: When budget &gt; 80%:                        │  │
+│  │  [● Downgrade all to cheapest capable model]            │  │
+│  │  [○ Only downgrade non-critical tasks]                  │  │
+│  │  [○ Ask me every time]                                  │  │
+│  │                                                         │  │
+│  │  [💾 Save Router Config]                                │  │
+│  └─────────────────────────────────────────────────────────┘  │
+</code></pre>
+<hr>
+<h2 class="code-line has-line-data" data-line-start="1374" data-line-end="1375"><a id="Sprint_12_ROI_Analytics_Quality_1374"></a>Sprint 12 — ROI Analytics &amp; Quality</h2>
+<p class="has-line-data" data-line-start="1376" data-line-end="1377"><strong>Duration:</strong> 2 weeks</p>
+<h3 class="code-line has-line-data" data-line-start="1378" data-line-end="1379"><a id="Story_121_ROI_Dashboard_1378"></a>Story 12.1 — ROI Dashboard</h3>
+<p class="has-line-data" data-line-start="1380" data-line-end="1383"><strong>As a</strong> user/manager,<br>
+<strong>I want</strong> to see the return on investment of my agents,<br>
+<strong>So that</strong> I can justify the costs.</p>
+<p class="has-line-data" data-line-start="1384" data-line-end="1385"><strong>Prototype:</strong></p>
+<pre><code class="has-line-data" data-line-start="1387" data-line-end="1417">┌──────────┬───────────────────────────────────────────────────────┐
+│ 💎 ROI   │  💎 ROI Analytics          Period: [This Month ▾]     │
+│          │                                                       │
+│          │  ┌──────────┐ ┌──────────┐ ┌──────────┐ ┌──────────┐ │
+│          │  │💰 Spent  │ │⏱ Saved   │ │💵 Value  │ │📈 ROI    │ │
+│          │  │  $142    │ │  87 hrs  │ │  $4,350  │ │ 2,963%   │ │
+│          │  └──────────┘ └──────────┘ └──────────┘ └──────────┘ │
+│          │                                                       │
+│          │  ┌─── ROI Trend (6 Months) ───────────────────────┐  │
+│          │  │  4000%┤                              ╭──        │  │
+│          │  │  3000%┤                       ╭──────╯          │  │
+│          │  │  2000%┤              ╭────────╯                 │  │
+│          │  │  1000%┤     ╭───────╯                           │  │
+│          │  │   500%┤─────╯                                   │  │
+│          │  │       └──┬──┬──┬──┬──┬──                        │  │
+│          │  │         Jun Jul Aug Sep Oct Nov                  │  │
+│          │  └────────────────────────────────────────────────┘   │
+│          │                                                       │
+│          │  🐛 Bugs Caught Early: 34                             │
+│          │  Est. post-production fix cost: $6,800                │
+│          │  You saved: $6,658 this month 💰                      │
+│          │                                                       │
+│          │  ┌─── Monthly Narrative Report ────────────────────┐  │
+│          │  │  &quot;This month, agents saved 87 hours. Biggest    │  │
+│          │  │   win: auth refactor in 45min vs 2 days.        │  │
+│          │  │   34 bugs caught before production.&quot;            │  │
+│          │  │  [📥 Export PDF]  [📧 Email to Team]             │  │
+│          │  └─────────────────────────────────────────────────┘  │
+└──────────┴───────────────────────────────────────────────────────┘
+</code></pre>
+<hr>
+<h3 class="code-line has-line-data" data-line-start="1420" data-line-end="1421"><a id="Story_122_Agent_Quality_Scorecard_1420"></a>Story 12.2 — Agent Quality Scorecard</h3>
+<p class="has-line-data" data-line-start="1422" data-line-end="1425"><strong>As a</strong> user,<br>
+<strong>I want</strong> to see quality metrics for each agent,<br>
+<strong>So that</strong> I know which agents need improvement.</p>
+<p class="has-line-data" data-line-start="1426" data-line-end="1427"><strong>Prototype:</strong></p>
+<pre><code class="has-line-data" data-line-start="1429" data-line-end="1450">│  🤖 code-writer — Overall Quality: ⭐ 8.4 / 10                  │
+│                                                                  │
+│  Metric             Score    Trend                               │
+│  ─────────────────────────────────────                          │
+│  Code Correctness    9.1     📈 ↑0.3                            │
+│  Best Practices      8.7     📈 ↑0.1                            │
+│  Test Coverage       7.2     📉 ↓0.2                            │
+│  Security            8.9     ── same                            │
+│  Performance         8.1     📈 ↑0.5                            │
+│  Readability         8.5     ── same                            │
+│  ─────────────────────────────────────                          │
+│  Success Rate        94%     📈 ↑2%                             │
+│  User Overrides      12%     📉 ↓3%  (agent was wrong)          │
+│  False Positives      7%     📈 ↓1%                             │
+│                                                                  │
+│  🔍 Judge Analysis:                                              │
+│  &quot;Test coverage dropping — new endpoints not getting             │
+│   integration tests. Suggest: always write integration           │
+│   test for new endpoints.&quot;                                       │
+│  [🔧 Apply Suggestion]  [📊 Full Report]                        │
+</code></pre>
+<hr>
+<h2 class="code-line has-line-data" data-line-start="1453" data-line-end="1454"><a id="Sprint_13_AutoDiscovery_SelfHealing_1453"></a>Sprint 13 — Auto-Discovery &amp; Self-Healing</h2>
+<p class="has-line-data" data-line-start="1455" data-line-end="1456"><strong>Duration:</strong> 2 weeks</p>
+<h3 class="code-line has-line-data" data-line-start="1457" data-line-end="1458"><a id="Story_131_Environment_AutoDiscovery_1457"></a>Story 13.1 — Environment Auto-Discovery</h3>
+<p class="has-line-data" data-line-start="1459" data-line-end="1462"><strong>As a</strong> user,<br>
+<strong>I want</strong> the system to auto-scan my environment,<br>
+<strong>So that</strong> I get relevant config recommendations.</p>
+<p class="has-line-data" data-line-start="1463" data-line-end="1464"><strong>Prototype:</strong></p>
+<pre><code class="has-line-data" data-line-start="1466" data-line-end="1493">┌──────────┬───────────────────────────────────────────────────────┐
+│ 🔍 Discvr│  🔍 Auto-Discovery                                    │
+│          │  [Environment] [Drift Detection] [Recommendations]    │
+│          │                                                       │
+│          │  Last scan: 14 min ago  [🔄 Re-scan]                  │
+│          │  Auto-scan: Every 6 hours ✅                          │
+│          │                                                       │
+│          │  📦 Detected Stack:                                    │
+│          │  Framework:  Next.js 14.2.1                           │
+│          │  Language:   TypeScript 5.4                           │
+│          │  ORM:        Prisma 5.10                              │
+│          │  Database:   PostgreSQL 16                            │
+│          │  Cache:      Redis 7.2          🆕 NEW                │
+│          │  Auth:       NextAuth 5.0                             │
+│          │  Testing:    Jest + Playwright                        │
+│          │  CI/CD:      GitHub Actions                           │
+│          │                                                       │
+│          │  🆕 Drift Detected! Redis added to project            │
+│          │  ┌───────────────────────────────────────────────┐   │
+│          │  │ Recommendations:                               │   │
+│          │  │ → Install Redis MCP for cache management       │   │
+│          │  │ → Add Redis monitoring to DevOps agent         │   │
+│          │  │ → Create cache invalidation hook               │   │
+│          │  │ [🚀 Apply All]  [📋 Review Each]              │   │
+│          │  └───────────────────────────────────────────────┘   │
+└──────────┴───────────────────────────────────────────────────────┘
+</code></pre>
+<hr>
+<h3 class="code-line has-line-data" data-line-start="1496" data-line-end="1497"><a id="Story_132_SelfHealing_Dashboard_1496"></a>Story 13.2 — Self-Healing Dashboard</h3>
+<p class="has-line-data" data-line-start="1498" data-line-end="1501"><strong>As a</strong> user,<br>
+<strong>I want</strong> the system to detect and fix config issues automatically,<br>
+<strong>So that</strong> problems resolve with minimal manual work.</p>
+<p class="has-line-data" data-line-start="1502" data-line-end="1503"><strong>Prototype:</strong></p>
+<pre><code class="has-line-data" data-line-start="1505" data-line-end="1527">│  ┌─── Self-Healing Engine ─────────────────────────────────┐  │
+│  │  Status: 🟢 Active │ Issues Found: 3                     │  │
+│  │  Auto-fix: [● Suggest Only ○ Auto-apply]                 │  │
+│  │                                                         │  │
+│  │  ┌── Auto-fixed ✅ ─────────────────────────────────┐   │  │
+│  │  │ Hook &quot;pre-commit&quot; timing out                      │   │  │
+│  │  │ Root cause: lint scope too broad                  │   │  │
+│  │  │ Fix: scoped to changed files  → 4.2s → 0.8s ✅   │   │  │
+│  │  │ [↩️ Undo]                                         │   │  │
+│  │  └────────────────────────────────────────────────────┘  │  │
+│  │                                                         │  │
+│  │  ┌── Needs Approval ⏳ ──────────────────────────────┐  │  │
+│  │  │ &quot;researcher&quot; has 30% failure rate                 │  │  │
+│  │  │ Cause: reading deprecated API docs                │  │  │
+│  │  │ Fix: exclude /docs/deprecated/                    │  │  │
+│  │  │ [✅ Apply Fix] [❌ Dismiss] [🔍 Details]          │  │  │
+│  │  └────────────────────────────────────────────────────┘  │  │
+│  │                                                         │  │
+│  │  📊 This Month:                                          │  │
+│  │  Detected: 12 │ Auto-fixed: 7 │ Approved: 3 │ Dismissed: 2│  │
+│  └─────────────────────────────────────────────────────────┘  │
+</code></pre>
+<hr>
+<h2 class="code-line has-line-data" data-line-start="1530" data-line-end="1531"><a id="Sprint_14_Dependency_Map_Config_Versioning_1530"></a>Sprint 14 — Dependency Map &amp; Config Versioning</h2>
+<p class="has-line-data" data-line-start="1532" data-line-end="1533"><strong>Duration:</strong> 1.5 weeks</p>
+<h3 class="code-line has-line-data" data-line-start="1534" data-line-end="1535"><a id="Story_141_Dependency_Map_1534"></a>Story 14.1 — Dependency Map</h3>
+<p class="has-line-data" data-line-start="1536" data-line-end="1539"><strong>As a</strong> user,<br>
+<strong>I want</strong> to see how agents, skills, and hooks are connected,<br>
+<strong>So that</strong> I understand the impact of changes.</p>
+<p class="has-line-data" data-line-start="1540" data-line-end="1541"><strong>Prototype:</strong></p>
+<pre><code class="has-line-data" data-line-start="1543" data-line-end="1568">┌──────────┬───────────────────────────────────────────────────────┐
+│ 🔗 Deps  │  🔗 Dependency Map                                    │
+│          │  [Graph View ●] [Table View ○] [Impact Analysis]      │
+│          │                                                       │
+│          │  ┌────────────────────────────────────────────────┐   │
+│          │  │  ┌─────────────┐         ┌──────────────┐       │   │
+│          │  │  │🤖code-writer│────────→│🎯test-runner │       │   │
+│          │  │  │             │────┐     └──────────────┘       │   │
+│          │  │  └──────┬──────┘    └───→┌──────────────┐       │   │
+│          │  │         │               │🔌 GitLab MCP  │       │   │
+│          │  │         ▼               └───────┬────────┘       │   │
+│          │  │  ┌─────────────┐                │              │   │
+│          │  │  │⚡pre-edit   │                │              │   │
+│          │  │  └─────────────┘                │              │   │
+│          │  │                                 │              │   │
+│          │  │  ┌─────────────┐────────────────┘              │   │
+│          │  │  │🤖 reviewer  │────→┌──────────────┐          │   │
+│          │  │  └─────────────┘    │🎯code-analysis│          │   │
+│          │  │                     └──────────────┘           │   │
+│          │  │                                                │   │
+│          │  │  ⚠️ Impact: Removing GitLab MCP affects        │   │
+│          │  │     2 agents (code-writer, reviewer)            │   │
+│          │  └────────────────────────────────────────────────┘   │
+└──────────┴───────────────────────────────────────────────────────┘
+</code></pre>
+<hr>
+<h3 class="code-line has-line-data" data-line-start="1571" data-line-end="1572"><a id="Story_142_Config_Version_Control_1571"></a>Story 14.2 — Config Version Control</h3>
+<p class="has-line-data" data-line-start="1573" data-line-end="1576"><strong>As a</strong> user,<br>
+<strong>I want</strong> to see config change history and rollback,<br>
+<strong>So that</strong> I can undo bad configurations.</p>
+<p class="has-line-data" data-line-start="1577" data-line-end="1578"><strong>Prototype:</strong></p>
+<pre><code class="has-line-data" data-line-start="1580" data-line-end="1606">│  Current Version: v14 │ [📥 Export] [📤 Import]                  │
+│                                                                  │
+│  v14  Today 2:34 PM                          ● Current          │
+│  Added: security-reviewer agent + pre-merge hook                │
+│  Source: Chat-to-Config                                          │
+│  [👁️ View] [📊 Diff with v13]                                  │
+│                                                                  │
+│  v13  Yesterday 5:12 PM                                         │
+│  Modified: code-writer system prompt + pre-commit scope         │
+│  Source: Self-Healing auto-fix                                   │
+│  [👁️ View] [↩️ Rollback] [📊 Diff]                             │
+│                                                                  │
+│  v12  3 days ago                                                │
+│  Added: tester agent + /tdd command                             │
+│  Source: Manual (Dashboard)                                      │
+│  [👁️ View] [↩️ Rollback] [📊 Diff]                             │
+│                                                                  │
+│  ┌─── Diff v13 → v14 ──────────────────────────────────────┐   │
+│  │  agents/security-reviewer.yaml              🟢 Added    │   │
+│  │  + name: security-reviewer                              │   │
+│  │  + model: claude-opus                                    │   │
+│  │  hooks/pre-merge.yaml                       🟢 Added    │   │
+│  │  + trigger: before_merge                                 │   │
+│  │  + on_failure: block_merge                               │   │
+│  └─────────────────────────────────────────────────────────┘   │
+</code></pre>
+<hr>
+<h2 class="code-line has-line-data" data-line-start="1609" data-line-end="1610"><a id="Sprint_15_Team_Collaboration_1609"></a>Sprint 15 — Team &amp; Collaboration</h2>
+<p class="has-line-data" data-line-start="1611" data-line-end="1612"><strong>Duration:</strong> 2 weeks</p>
+<h3 class="code-line has-line-data" data-line-start="1613" data-line-end="1614"><a id="Story_151_Team_Dashboard_1613"></a>Story 15.1 — Team Dashboard</h3>
+<p class="has-line-data" data-line-start="1615" data-line-end="1618"><strong>As a</strong> team admin,<br>
+<strong>I want</strong> to see team usage and performance,<br>
+<strong>So that</strong> I can manage costs and productivity.</p>
+<p class="has-line-data" data-line-start="1619" data-line-end="1620"><strong>Prototype:</strong></p>
+<pre><code class="has-line-data" data-line-start="1622" data-line-end="1643">┌──────────┬───────────────────────────────────────────────────────┐
+│ 👥 Team  │  👥 Team Management                                    │
+│          │  [Members] [Shared Config] [Permissions] [Analytics]  │
+│          │                                                       │
+│          │  Team: &quot;Acme Engineering&quot; │ Members: 8                 │
+│          │  Total Cost: $342/month   │ Active Agents: 12          │
+│          │                                                       │
+│          │  Member         Role    Cost     Sessions   Score      │
+│          │  ─────────────────────────────────────────────────    │
+│          │  👤 Ali         Admin   $89      145        8.7       │
+│          │  👤 Sara        Dev     $67      98         9.1       │
+│          │  👤 Reza        Dev     $52      87         8.4       │
+│          │  👤 Mina        Dev     $45      76         8.2       │
+│          │  👤 Hassan      Lead    $38      45         9.0       │
+│          │  👤 Zahra       Junior  $23      34         7.8       │
+│          │  👤 Mohammad    DevOps  $18      23         8.5       │
+│          │  👤 Fatemeh     QA      $10      12         9.3       │
+│          │                                                       │
+│          │  [+ Invite Member]  [⚙️ Team Settings]                │
+└──────────┴───────────────────────────────────────────────────────┘
+</code></pre>
+<hr>
+<h3 class="code-line has-line-data" data-line-start="1646" data-line-end="1647"><a id="Story_152_Blueprint_Marketplace_1646"></a>Story 15.2 — Blueprint Marketplace</h3>
+<p class="has-line-data" data-line-start="1648" data-line-end="1651"><strong>As a</strong> user,<br>
+<strong>I want</strong> to browse and install ready-made blueprints,<br>
+<strong>So that</strong> I can get started quickly with proven configurations.</p>
+<p class="has-line-data" data-line-start="1652" data-line-end="1653"><strong>Prototype:</strong></p>
+<pre><code class="has-line-data" data-line-start="1655" data-line-end="1679">┌──────────┬───────────────────────────────────────────────────────┐
+│ 🏪 Market│  🏪 Blueprint Marketplace                              │
+│          │  [Popular] [New] [Your Stack: Next.js] [Your Uploads] │
+│          │                                                       │
+│          │  ┌──────────────────────┐  ┌──────────────────────┐  │
+│          │  │ 📦 Full-Stack Next.js│  │ 📦 Python ML Pipeline│  │
+│          │  │ ⭐⭐⭐⭐⭐ (4.9)     │  │ ⭐⭐⭐⭐☆ (4.4)     │  │
+│          │  │ 5 agents, 8 hooks,   │  │ 3 agents, 4 hooks    │  │
+│          │  │ 📥 1,234 installs    │  │ Not compatible ❌    │  │
+│          │  │ Compatible ✅        │  │ (needs Python)       │  │
+│          │  │ [📥 Install] [👁️]   │  │ [👁️ Preview]        │  │
+│          │  └──────────────────────┘  └──────────────────────┘  │
+│          │                                                       │
+│          │  ┌──────────────────────┐  ┌──────────────────────┐  │
+│          │  │ 📦 Security Hardened │  │ 📦 TDD Master        │  │
+│          │  │ ⭐⭐⭐⭐⭐ (4.8)     │  │ ⭐⭐⭐⭐⭐ (4.7)     │  │
+│          │  │ 📥 2,891 installs    │  │ 📥 987 installs      │  │
+│          │  │ Compatible ✅        │  │ Compatible ✅        │  │
+│          │  │ [📥 Install] [👁️]   │  │ [📥 Install] [👁️]   │  │
+│          │  └──────────────────────┘  └──────────────────────┘  │
+│          │                                                       │
+│          │  [📤 Create Blueprint from Current Config]            │
+└──────────┴───────────────────────────────────────────────────────┘
+</code></pre>
+<hr>
+<h2 class="code-line has-line-data" data-line-start="1682" data-line-end="1683"><a id="Sprint_16_WhatIf_Simulator_Alerts_1682"></a>Sprint 16 — What-If Simulator &amp; Alerts</h2>
+<p class="has-line-data" data-line-start="1684" data-line-end="1685"><strong>Duration:</strong> 1.5 weeks</p>
+<h3 class="code-line has-line-data" data-line-start="1686" data-line-end="1687"><a id="Story_161_WhatIf_Simulator_1686"></a>Story 16.1 — What-If Simulator</h3>
+<p class="has-line-data" data-line-start="1688" data-line-end="1691"><strong>As a</strong> user,<br>
+<strong>I want</strong> to simulate changes before applying them,<br>
+<strong>So that</strong> I can predict impact without risk.</p>
+<p class="has-line-data" data-line-start="1692" data-line-end="1693"><strong>Prototype:</strong></p>
+<pre><code class="has-line-data" data-line-start="1695" data-line-end="1725">┌──────────┬───────────────────────────────────────────────────────┐
+│ 🔮 WhatIf│  🔮 What-If Simulator                                  │
+│          │                                                       │
+│          │  ┌────────────────────────────────────────────────┐   │
+│          │  │ 💬 &quot;What if I switch code-writer Opus→Sonnet?&quot; │   │
+│          │  └────────────────────────────────────────────────┘   │
+│          │  [🔮 Simulate]                                        │
+│          │                                                       │
+│          │  ┌─── Simulation Results ─────────────────────────┐  │
+│          │  │  Based on 234 historical sessions:              │  │
+│          │  │                                                 │  │
+│          │  │  Metric        Current(Opus) Predicted(Sonnet) │  │
+│          │  │  ───────────────────────────────────────────── │  │
+│          │  │  Quality Score    9.2          8.7 (↓5%)       │  │
+│          │  │  Success Rate     96%          92% (↓4%)       │  │
+│          │  │  Avg Speed        45s          32s (↑29%) 🟢   │  │
+│          │  │  Monthly Cost     $52          $11 (↓79%) 🟢   │  │
+│          │  │                                                 │  │
+│          │  │  Quality by Task:                               │  │
+│          │  │  Code Generation:  9.4 → 8.9 (minor)          │  │
+│          │  │  Refactoring:      9.6 → 8.1 (significant) ⚠️ │  │
+│          │  │  Bug Fixing:       8.8 → 9.0 (better!) 🟢     │  │
+│          │  │                                                 │  │
+│          │  │  💡 Switch everything except refactoring.       │  │
+│          │  │     Save $41/month, only 2% quality drop.      │  │
+│          │  │                                                 │  │
+│          │  │  [✅ Apply Recommendation] [🔧 Full Switch]    │  │
+│          │  └─────────────────────────────────────────────────┘  │
+└──────────┴───────────────────────────────────────────────────────┘
+</code></pre>
+<hr>
+<h3 class="code-line has-line-data" data-line-start="1728" data-line-end="1729"><a id="Story_162_Smart_Alerts_Configuration_1728"></a>Story 16.2 — Smart Alerts Configuration</h3>
+<p class="has-line-data" data-line-start="1730" data-line-end="1733"><strong>As a</strong> user,<br>
+<strong>I want</strong> to configure intelligent alerts,<br>
+<strong>So that</strong> I’m notified when things go wrong.</p>
+<p class="has-line-data" data-line-start="1734" data-line-end="1735"><strong>Prototype:</strong></p>
+<pre><code class="has-line-data" data-line-start="1737" data-line-end="1765">│  ┌─── Alert Rules ────────────────────────────────────────┐  │
+│  │  [+ New Alert Rule]                                    │  │
+│  │                                                        │  │
+│  │  🟢 Token Spike Detection                              │  │
+│  │  When: Token usage &gt; 200% of daily average             │  │
+│  │  Alert: Email + Dashboard notification                  │  │
+│  │  Triggered: 2 times this month                         │  │
+│  │  [⚙️ Edit] [⏸️ Pause] [🗑️]                           │  │
+│  │                                                        │  │
+│  │  🟢 Agent Loop Detection                               │  │
+│  │  When: Same tool called &gt; 5 times in a loop            │  │
+│  │  Action: Auto-kill + alert                             │  │
+│  │  Triggered: 1 time this month                          │  │
+│  │  [⚙️ Edit] [⏸️ Pause] [🗑️]                           │  │
+│  │                                                        │  │
+│  │  🟢 Quality Drop Alert                                 │  │
+│  │  When: Agent quality score drops &gt; 10%                 │  │
+│  │  Alert: Dashboard + suggest investigation              │  │
+│  │  Triggered: 0 times                                    │  │
+│  │  [⚙️ Edit] [⏸️ Pause] [🗑️]                           │  │
+│  │                                                        │  │
+│  │  🟢 Model Disconnect Alert                             │  │
+│  │  When: Model API errors &gt; 3 times                      │  │
+│  │  Action: Auto-switch to fallback + alert               │  │
+│  │  Triggered: 1 time (GPT-4o key expired)                │  │
+│  │  [⚙️ Edit] [⏸️ Pause] [🗑️]                           │  │
+│  └────────────────────────────────────────────────────────┘  │
+</code></pre>
+<hr>
+<h2 class="code-line has-line-data" data-line-start="1768" data-line-end="1769"><a id="Sprint_Summary_1768"></a>Sprint Summary</h2>
+<table class="table table-striped table-bordered">
+<thead>
+<tr>
+<th>#</th>
+<th>Sprint</th>
+<th>Duration</th>
+<th>Stories</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>Foundation &amp; Architecture</td>
+<td>1 week</td>
+<td>2</td>
+</tr>
+<tr>
+<td>1</td>
+<td>Overview Dashboard</td>
+<td>2 weeks</td>
+<td>4</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Token Analytics</td>
+<td>2 weeks</td>
+<td>4</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Agent Manager</td>
+<td>2 weeks</td>
+<td>3</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Command Center</td>
+<td>2 weeks</td>
+<td>3</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Hook Manager</td>
+<td>1.5 weeks</td>
+<td>2</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Skill &amp; MCP Store</td>
+<td>2 weeks</td>
+<td>2</td>
+</tr>
+<tr>
+<td>7</td>
+<td>Visual Flow Graph</td>
+<td>2 weeks</td>
+<td>2</td>
+</tr>
+<tr>
+<td>8</td>
+<td>Chat-to-Config</td>
+<td>2 weeks</td>
+<td>2</td>
+</tr>
+<tr>
+<td>9</td>
+<td>Budget &amp; Safety</td>
+<td>2 weeks</td>
+<td>3</td>
+</tr>
+<tr>
+<td>10</td>
+<td>Session Explorer &amp; Time-Travel</td>
+<td>2.5 weeks</td>
+<td>3</td>
+</tr>
+<tr>
+<td>11</td>
+<td>Model Intelligence</td>
+<td>2 weeks</td>
+<td>3</td>
+</tr>
+<tr>
+<td>12</td>
+<td>ROI Analytics &amp; Quality</td>
+<td>2 weeks</td>
+<td>2</td>
+</tr>
+<tr>
+<td>13</td>
+<td>Auto-Discovery &amp; Self-Healing</td>
+<td>2 weeks</td>
+<td>2</td>
+</tr>
+<tr>
+<td>14</td>
+<td>Dependency Map &amp; Versioning</td>
+<td>1.5 weeks</td>
+<td>2</td>
+</tr>
+<tr>
+<td>15</td>
+<td>Team &amp; Marketplace</td>
+<td>2 weeks</td>
+<td>2</td>
+</tr>
+<tr>
+<td>16</td>
+<td>What-If Simulator &amp; Alerts</td>
+<td>1.5 weeks</td>
+<td>2</td>
+</tr>
+<tr>
+<td><strong>—</strong></td>
+<td><strong>TOTAL</strong></td>
+<td><strong>~30 weeks</strong></td>
+<td><strong>41</strong></td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 class="code-line has-line-data" data-line-start="1793" data-line-end="1794"><a id="Tech_Stack_1793"></a>Tech Stack</h2>
+<table class="table table-striped table-bordered">
+<thead>
+<tr>
+<th>Layer</th>
+<th>Technology</th>
+<th>Reason</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Frontend</td>
+<td>Next.js 14 + App Router</td>
+<td>Modern, fast</td>
+</tr>
+<tr>
+<td>UI</td>
+<td>Tailwind + shadcn/ui</td>
+<td>Beautiful, flexible</td>
+</tr>
+<tr>
+<td>Charts</td>
+<td>Recharts + D3.js</td>
+<td>Token graphs</td>
+</tr>
+<tr>
+<td>Graph</td>
+<td>React Flow</td>
+<td>Pipeline visualization</td>
+</tr>
+<tr>
+<td>Backend</td>
+<td>Go</td>
+<td>Compatible with Beacon</td>
+</tr>
+<tr>
+<td>Database</td>
+<td>SQLite (local) + PostgreSQL (team)</td>
+<td>Local-first</td>
+</tr>
+<tr>
+<td>Realtime</td>
+<td>WebSocket</td>
+<td>Live monitoring</td>
+</tr>
+<tr>
+<td>Telemetry</td>
+<td>OpenTelemetry</td>
+<td>Compatible with Beacon</td>
+</tr>
+<tr>
+<td>Auth</td>
+<td>NextAuth.js</td>
+<td>Team mode</td>
+</tr>
+<tr>
+<td>Config</td>
+<td>YAML/JSON</td>
+<td>Claude Code compatible</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 class="code-line has-line-data" data-line-start="1810" data-line-end="1811"><a id="Key_Design_Principles_1810"></a>Key Design Principles</h2>
+<ol>
+<li class="has-line-data" data-line-start="1812" data-line-end="1813"><strong>Local-first</strong> — Works offline, syncs when online</li>
+<li class="has-line-data" data-line-start="1813" data-line-end="1814"><strong>Config as code</strong> — Everything exportable as YAML/JSON</li>
+<li class="has-line-data" data-line-start="1814" data-line-end="1815"><strong>Zero-touch</strong> — Auto-discovers and configures itself</li>
+<li class="has-line-data" data-line-start="1815" data-line-end="1816"><strong>Closed-loop</strong> — Data → Insight → Action → Better Data</li>
+<li class="has-line-data" data-line-start="1816" data-line-end="1817"><strong>Non-intrusive</strong> — Observes without changing agent behavior</li>
+<li class="has-line-data" data-line-start="1817" data-line-end="1819"><strong>Progressive</strong> — Works with basic setup, gets smarter over time</li>
+</ol>
+<hr>
+<p class="has-line-data" data-line-start="1821" data-line-end="1823"><em>AgentOS — The Operating System for AI Agents</em><br>
+<em>Powered by Agent Beacon + Everything Claude Code</em></p>
+
+</body>
+</html>

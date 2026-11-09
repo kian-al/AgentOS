@@ -1,0 +1,13 @@
+project: agentOS
+version: "0.1.0"
+telemetry:
+  source: ~/.beacon/endpoint/logs/runtime.jsonl
+  watch: true
+  format: jsonl
+backend:
+  port: 8080
+  db: ./agentOS.db
+  ws_path: /ws
+frontend:
+  port: 3000
+

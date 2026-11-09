@@ -1,0 +1,31 @@
+{
+  "hooks": [
+    {
+      "type": "PreToolUse",
+      "name": "log-tool-usage",
+      "description": "Log every tool call to .beacon/tool-usage.log for AgentOS self-monitoring",
+      "command": "echo \"[$(date -u +%Y-%m-%dT%H:%M:%SZ)] TOOL: $TOOL_NAME INPUT: $TOOL_INPUT\" >> .beacon/tool-usage.log"
+    },
+    {
+      "type": "PostToolUse",
+      "name": "verify-build-on-write",
+      "description": "After any Write or Edit to .go files, run go build to catch errors early",
+      "matcher": { "tool": ["Write", "Edit"], "path": "*.go" },
+      "command": "cd apps/api && go build ./... 2>&1 | head -20"
+    },
+    {
+      "type": "PostToolUse",
+      "name": "verify-types-on-tsx-write",
+      "description": "After any Write or Edit to .tsx files, run type-check",
+      "matcher": { "tool": ["Write", "Edit"], "path": "*.tsx" },
+      "command": "cd apps/web && npx tsc --noEmit 2>&1 | head -20"
+    },
+    {
+      "type": "Stop",
+      "name": "session-end-summary",
+      "description": "At end of every session, write a summary of what was built",
+      "command": "echo \"[SESSION END $(date -u +%Y-%m-%dT%H:%M:%SZ)] Session complete. Check PLAN.md and TEST_REPORT.md for details.\" >> .beacon/sessions.log"
+    }
+  ]
+}
+

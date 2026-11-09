@@ -1,0 +1,49 @@
+# Dependencies
+node_modules/
+/.pnp
+.pnp.js
+
+# Next.js / Frontend builds
+.next/
+out/
+build/
+dist/
+coverage/
+*.tsbuildinfo
+next-env.d.ts
+
+# Go binaries & build artifacts
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+*.test
+*.out
+apps/api/api
+apps/api/api.exe
+
+# SQLite databases & runtime data
+*.db
+*.db-journal
+*.sqlite
+*.sqlite3
+apps/api/agentOS.db
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Environment files
+.env*.local
+
+# Vercel
+.vercel
+
+# Operating System & Editors
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
